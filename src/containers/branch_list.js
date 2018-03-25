@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select-me';
 import 'react-select-me/lib/ReactSelectMe.css';
 
-import { weatherInfo, location } from '../actions';
+import { weatherInfo, location, additionalTodayWeatherInfo } from '../actions';
 import DateTimeDisplay from '../components/date_time_display';
 import LocationCoordinate from './location_coordinate';
 
@@ -18,7 +18,6 @@ const options = [
 
 ];
 
-let prevCity;
 
 class BranchList extends Component {
 
@@ -34,8 +33,6 @@ class BranchList extends Component {
 
         this.onInputChange = this.onInputChange.bind(this); 
 
-        console.log('branchList 1')
-
     }
 
     componentDidMount() {
@@ -46,6 +43,16 @@ class BranchList extends Component {
         this.props.weatherInfo( options[0].value);
       
         this.props.location(options[0].value);
+
+        this.props.additionalTodayWeatherInfo(options[0].value);
+
+        setInterval(() => {
+
+            this.props.additionalTodayWeatherInfo(options[0].value);
+
+        }, 1200000);
+
+       // this.props.additionalTodayWeatherInfo(options[0].value);
 
         // console.log('제발', options[0].value)
 
@@ -60,17 +67,24 @@ class BranchList extends Component {
         this.setState({ 
             
             value : branch_city,
-
-            
+ 
         });
 
         this.props.weatherInfo(branch_city);
 
         this.props.location(branch_city);
 
-    }
+        this.props.additionalTodayWeatherInfo(branch_city);
 
-   
+        setInterval(() => {
+
+            this.props.additionalTodayWeatherInfo(branch_city);
+
+        }, 120000);
+
+        // this.props.additionalTodayWeatherInfo(branch_city);
+
+    }
 
     render() {
 
@@ -85,12 +99,11 @@ class BranchList extends Component {
                     
                     <Select
 
+                        //style = { {width:200} }
                         options = { options }
                         value = { this.state.value }
                         onChange = { this.onInputChange }
                         
-                        // selected => 확인 필요 
-
                     />
 
                 </div>
@@ -115,4 +128,4 @@ class BranchList extends Component {
 
 }
 
-export default connect (null, { weatherInfo, location } )(BranchList);
+export default connect (null, { weatherInfo, location, additionalTodayWeatherInfo } )(BranchList);

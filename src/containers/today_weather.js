@@ -1,87 +1,68 @@
-/*
-
-import React, {  Component } from 'react';
+import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { todayWeatherInfo } from '../actions';
-
- let i = 0;
-
- class TodayWeather extends Component  {
+class TodayWeather extends Component {
 
     constructor (props) {
 
         super(props);
+        
+        this.state = {
 
-        //this.setLocationInfo = this.setLocationInfo.bind(this);
-       // this.getTodayWeaterhInfo = this.getTodayWeaterhInfo.bind(this);
+            weather : null,
+            additionalWeather: null
+
+        }
 
     }
-    
 
-    getTodayWeaterhInfo() {
+    /*
+    componentDidMount() {
 
-        
-        
-            
-        const locationCoord = this.props.branchLocation;
-        const { lat, lng } = locationCoord.results[0].geometry.location;
-        this.props.todayWeatherInfo(lat, lng);
-        
-        
-        // this.setLocationInfo();
+       this.weatherUpdate()
+       setInterval(this.weatherUpdate, 120000);
 
-        
-        return (
-            <tr>
-                <td>  
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction 
-                </td>
-                <td>
-                    under construction
-                </td>
-            </tr>
-
-        );
-    
     }
+    */
 
+    /*
+    weatherUpdate() {
 
-    render () {
+        const weather = this.props.todayWeather;
+        const additionalWeather = this.props.additionalTodayWeather;
 
-        console.log ('todaywethercount:', i++)
+        console.log('kkkkk',weather, additionalWeather)
+        this.setState({
 
-        if(this.props.branchLocation < 3 )
-        return (<div>Data Loading</div>);
+                weather : weather,
+                additionalWeather : additionalWeather
 
-       // return (<div>{this.getTodayWeaterhInfo()}</div>)
+        })
+        
+    }*/
 
-        return (
-            <div>
+    render() {
+
+        if (!this.props.todayWeather || !this.props.additionalTodayWeather)
+        return (<div>Loading...</div>);
+
+        
+
+       const weather = this.props.todayWeather;
+       const additionalWeather = this.props.additionalTodayWeather;
+        
+      
+        return(
+        
+            <div> 
+
                 <table border= "1">
                     <thead>
                         <tr>
+                            
                             <th>
-                                City
-                            </th>  
-                            <th>
-                                Avg Temperature (C)
+                                Today Weather
                             </th>
                             <th>
                                 Max. Temperature (C)
@@ -90,47 +71,74 @@ import { todayWeatherInfo } from '../actions';
                                 Min. Temperature (C)
                             </th>
                             <th>
-                                Weather
+                                Current Weather
                             </th>
                             <th>
-                                Description
+                                Current Temperature
                             </th>
                             <th>
-                                Cloulds (%)
+                                Apparent Temperature
                             </th>
+                            <th>
+                                Weather Description
+                            </th>
+                            <th>
+                                Wind Speed
+                            </th>
+
                         </tr>
                     </thead>
                     
                     <tbody>
                     
-                      { this.getTodayWeaterhInfo() }  
+                      <tr>
+                          {console.log('info',this.state.weather, this.state.additionalWeather)}
+                            
+                            <th>
+                                { weather.summary }
+                            </th>
+                            <th>
+                                { additionalWeather.main.temp_max }
+                            </th>
+                            <th>
+                                { additionalWeather.main.temp_min }
+                            </th>
+                            <th>
+                                { additionalWeather.weather[0].main }
+                            </th>
+                            <th>
+                                { weather.temperature }
+                            </th>
+                            <th>
+                                { weather.apparentTemperature }
+                            </th>
+
+                            <th>
+                                { additionalWeather.weather[0].description }
+                            </th>
+
+                            <th>
+                                { weather.windSpeed }
+
+                                {/*UNIT 조정 필요*/}
+
+                            </th>
+
+                        </tr>
 
                     </tbody>
+
                 </table>
-                
-             </div>
-                
-        );
-      
+
+            </div>);
+
     }
+}
+
+function mapStateToProps ({ todayWeather, additionalTodayWeather }) {
+    
+    return({ todayWeather, additionalTodayWeather });
 
 }
 
-    
-function mapStateToProps ({ branchLocation, todayWeather }) {
-    
-   console.log('todayWetherInfo:  ',   todayWeather  );
-
-    return { 
-        
-        branchLocation,
-        todayWeather
-
-     };
-
-
-}
-
-export default connect(mapStateToProps, { todayWeatherInfo })(TodayWeather);
-
-*/
+export default connect(mapStateToProps)(TodayWeather);
