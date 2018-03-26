@@ -18,6 +18,8 @@ const options = [
 
 ];
 
+let didMountInterval;
+let onInputChangeInterval;
 
 class BranchList extends Component {
 
@@ -37,20 +39,20 @@ class BranchList extends Component {
 
     componentDidMount() {
 
-        this.setState({ value : options[0].value})
+        this.setState({ value : options[0].value })
         //console.log('set.this.state: ', this.state.value )
 
-        this.props.weatherInfo( options[0].value);
+        this.props.weatherInfo(options[0].value);
       
         this.props.location(options[0].value);
 
         this.props.additionalTodayWeatherInfo(options[0].value);
 
-        setInterval(() => {
+        didMountInterval = setInterval(() => {
 
             this.props.additionalTodayWeatherInfo(options[0].value);
 
-        }, 1200000);
+        }, 600000);
 
        // this.props.additionalTodayWeatherInfo(options[0].value);
 
@@ -60,13 +62,18 @@ class BranchList extends Component {
 
     onInputChange (value) {
 
-       console.log('value: ', value)
+        clearInterval(didMountInterval);
 
-        const branch_city = value.value;
+        if (onInputChangeInterval) 
+            console.log('working')
+            clearInterval(onInputChangeInterval);
+        
+        const branch_city = value.value; 
+        console.log('branch_city1:', branch_city)
 
         this.setState({ 
             
-            value : branch_city,
+            value : branch_city
  
         });
 
@@ -76,13 +83,14 @@ class BranchList extends Component {
 
         this.props.additionalTodayWeatherInfo(branch_city);
 
-        setInterval(() => {
+        onInputChangeInterval = setInterval(() => {
+
+            console.log('branch_city2:', branch_city)
+            console.log('this.sate.value', this.state.value);
 
             this.props.additionalTodayWeatherInfo(branch_city);
 
-        }, 120000);
-
-        // this.props.additionalTodayWeatherInfo(branch_city);
+        }, 600000);
 
     }
 
@@ -105,6 +113,8 @@ class BranchList extends Component {
                         onChange = { this.onInputChange }
                         
                     />
+
+
 
                 </div>
 

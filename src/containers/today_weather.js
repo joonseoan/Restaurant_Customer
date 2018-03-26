@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
+import _ from 'lodash';
+
 class TodayWeather extends Component {
 
     constructor (props) {
@@ -47,12 +49,10 @@ class TodayWeather extends Component {
         if (!this.props.todayWeather || !this.props.additionalTodayWeather)
         return (<div>Loading...</div>);
 
-        
-
        const weather = this.props.todayWeather;
+       console.log('todayDarkSky: ', weather);
        const additionalWeather = this.props.additionalTodayWeather;
         
-      
         return(
         
             <div> 
@@ -62,7 +62,7 @@ class TodayWeather extends Component {
                         <tr>
                             
                             <th>
-                                Today Weather
+                                Today Weather Summary
                             </th>
                             <th>
                                 Max. Temperature (C)
@@ -74,16 +74,16 @@ class TodayWeather extends Component {
                                 Current Weather
                             </th>
                             <th>
-                                Current Temperature
+                                Current Temperature (C)
                             </th>
                             <th>
-                                Apparent Temperature
+                                Apparent Temperature (C)
                             </th>
                             <th>
                                 Weather Description
                             </th>
                             <th>
-                                Wind Speed
+                                Wind Speed (KM/Hour)
                             </th>
 
                         </tr>
@@ -92,36 +92,30 @@ class TodayWeather extends Component {
                     <tbody>
                     
                       <tr>
-                          {console.log('info',this.state.weather, this.state.additionalWeather)}
                             
                             <th>
                                 { weather.summary }
                             </th>
                             <th>
-                                { additionalWeather.main.temp_max }
+                                { _.round (additionalWeather.main.temp_max - 273) }
                             </th>
                             <th>
-                                { additionalWeather.main.temp_min }
+                                { _.round (additionalWeather.main.temp_min - 273) }
                             </th>
                             <th>
                                 { additionalWeather.weather[0].main }
                             </th>
                             <th>
-                                { weather.temperature }
+                                { _.round((weather.temperature -32) / 1.8) }
                             </th>
                             <th>
-                                { weather.apparentTemperature }
+                                { _.round((weather.apparentTemperature -32) / 1.8) }
                             </th>
-
                             <th>
                                 { additionalWeather.weather[0].description }
                             </th>
-
                             <th>
-                                { weather.windSpeed }
-
-                                {/*UNIT 조정 필요*/}
-
+                                { _.round(weather.windSpeed * 1.61) }
                             </th>
 
                         </tr>

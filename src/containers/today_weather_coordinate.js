@@ -7,6 +7,9 @@ import { todayWeatherInfo } from '../actions';
 
 import TodayWeather from './today_weather';
 
+let didMountInterval;
+let willReceiveInterval;
+
 class TodayWeatherCoordinate extends Component  {
 
     componentDidMount() {
@@ -16,82 +19,38 @@ class TodayWeatherCoordinate extends Component  {
         if(lat && lng)
         this.props.todayWeatherInfo(lat, lng);
         
-        setInterval(() => {
+        didMountInterval = setInterval(() => {
 
             this.props.todayWeatherInfo(lat, lng);
+            console.log('I hate western Asian')
             
-        }, 120000);
-
-        
+        }, 600000);  
 
     }
     
     componentWillReceiveProps(nextProps) {
 
+        clearInterval(didMountInterval);
+
+        if(willReceiveInterval)
+        clearInterval(willReceiveInterval);
+
         const { lat, lng } = nextProps;
 
-       // if(lat && lng)
+        console.log('xxxxxxxx',lat,lng)
 
-        setInterval(() => {
+       // if(lat && lng)
+        this.props.todayWeatherInfo(lat, lng);
+
+        willReceiveInterval = setInterval(() => {
 
             this.props.todayWeatherInfo(lat, lng);
+            console.log('I hate Brown People')
             
-        }, 120000);
+        }, 600000);
         
 
     }
-
-     
-     /*
-    
-    getTodayWeaterhInfo() {
-
-        
-        
-            
-       //const locationCoord = this.props.branchLocation;
-        // const { lat, lng } = locationCoord.results[0].geometry.location;
-        //this.props.todayWeatherInfo(lat, lng);
-        
-        
-        // this.setLocationInfo();
-
-        
-        return (
-            <tr>
-                <td>  
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction
-                </td>
-                <td>
-                    under construction 
-                </td>
-                <td>
-                    under construction
-                </td>
-            </tr>
-
-        );
-    
-    }
-
-    */
-
-
-
-    
-
 
     render () {
 
