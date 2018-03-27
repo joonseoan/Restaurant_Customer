@@ -7,48 +7,37 @@ import { todayWeatherInfo } from '../actions';
 
 import TodayWeather from './today_weather';
 
-let didMountInterval;
-let willReceiveInterval;
+let startInterval;
 
 class TodayWeatherCoordinate extends Component  {
 
-    componentDidMount() {
+    setTodayWeather(weatherInfo) {
 
-        const { lat, lng } = this.props;
+        const { lat, lng } = weatherInfo;
 
-        if(lat && lng)
         this.props.todayWeatherInfo(lat, lng);
-        
-        didMountInterval = setInterval(() => {
+
+        startInterval = setInterval(() => {
 
             this.props.todayWeatherInfo(lat, lng);
             console.log('I hate western Asian')
             
-        }, 600000);  
+        }, 600000); 
+
+    }
+
+    componentDidMount() {
+
+        if(this.props)
+        this.setTodayWeather(this.props);
 
     }
     
     componentWillReceiveProps(nextProps) {
 
-        clearInterval(didMountInterval);
+        clearInterval(startInterval);
 
-        if(willReceiveInterval)
-        clearInterval(willReceiveInterval);
-
-        const { lat, lng } = nextProps;
-
-        console.log('xxxxxxxx',lat,lng)
-
-       // if(lat && lng)
-        this.props.todayWeatherInfo(lat, lng);
-
-        willReceiveInterval = setInterval(() => {
-
-            this.props.todayWeatherInfo(lat, lng);
-            console.log('I hate Brown People')
-            
-        }, 600000);
-        
+        this.setTodayWeather(nextProps);
 
     }
 

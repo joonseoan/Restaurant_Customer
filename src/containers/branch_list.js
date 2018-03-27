@@ -18,8 +18,7 @@ const options = [
 
 ];
 
-let didMountInterval;
-let onInputChangeInterval;
+let startInterval;
 
 class BranchList extends Component {
 
@@ -36,40 +35,8 @@ class BranchList extends Component {
         this.onInputChange = this.onInputChange.bind(this); 
 
     }
-
-    componentDidMount() {
-
-        this.setState({ value : options[0].value })
-        //console.log('set.this.state: ', this.state.value )
-
-        this.props.weatherInfo(options[0].value);
-      
-        this.props.location(options[0].value);
-
-        this.props.additionalTodayWeatherInfo(options[0].value);
-
-        didMountInterval = setInterval(() => {
-
-            this.props.additionalTodayWeatherInfo(options[0].value);
-
-        }, 600000);
-
-       // this.props.additionalTodayWeatherInfo(options[0].value);
-
-        // console.log('제발', options[0].value)
-
-    }
-
-    onInputChange (value) {
-
-        clearInterval(didMountInterval);
-
-        if (onInputChangeInterval) 
-            console.log('working')
-            clearInterval(onInputChangeInterval);
-        
-        const branch_city = value.value; 
-        console.log('branch_city1:', branch_city)
+    
+    setTodayWeatherInfo(branch_city) {
 
         this.setState({ 
             
@@ -78,19 +45,34 @@ class BranchList extends Component {
         });
 
         this.props.weatherInfo(branch_city);
-
+      
         this.props.location(branch_city);
-
+        
         this.props.additionalTodayWeatherInfo(branch_city);
 
-        onInputChangeInterval = setInterval(() => {
+        startInterval = setInterval(() => {
 
-            console.log('branch_city2:', branch_city)
-            console.log('this.sate.value', this.state.value);
+            console.log('branch_city',branch_city);
 
             this.props.additionalTodayWeatherInfo(branch_city);
 
         }, 600000);
+
+    }
+
+    componentDidMount() {
+
+        this.setTodayWeatherInfo(options[0].value);
+
+    }
+
+    onInputChange (value) {
+
+        clearInterval(startInterval);
+        
+        const branch_city = value.value; 
+
+        this.setTodayWeatherInfo(branch_city);
 
     }
 

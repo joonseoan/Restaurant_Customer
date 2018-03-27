@@ -4,6 +4,13 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
+
+function roundData (weather) {
+   
+    return (_.round(weather));
+
+}
+
 class TodayWeather extends Component {
 
     constructor (props) {
@@ -19,38 +26,12 @@ class TodayWeather extends Component {
 
     }
 
-    /*
-    componentDidMount() {
-
-       this.weatherUpdate()
-       setInterval(this.weatherUpdate, 120000);
-
-    }
-    */
-
-    /*
-    weatherUpdate() {
-
-        const weather = this.props.todayWeather;
-        const additionalWeather = this.props.additionalTodayWeather;
-
-        console.log('kkkkk',weather, additionalWeather)
-        this.setState({
-
-                weather : weather,
-                additionalWeather : additionalWeather
-
-        })
-        
-    }*/
-
     render() {
 
         if (!this.props.todayWeather || !this.props.additionalTodayWeather)
         return (<div>Loading...</div>);
 
        const weather = this.props.todayWeather;
-       console.log('todayDarkSky: ', weather);
        const additionalWeather = this.props.additionalTodayWeather;
         
         return(
@@ -91,31 +72,31 @@ class TodayWeather extends Component {
                     
                     <tbody>
                     
-                      <tr>
+                        <tr>
                             
                             <th>
                                 { weather.summary }
                             </th>
                             <th>
-                                { _.round (additionalWeather.main.temp_max - 273) }
+                                { roundData((additionalWeather.main.temp_max) - 273) }
                             </th>
                             <th>
-                                { _.round (additionalWeather.main.temp_min - 273) }
+                                { roundData((additionalWeather.main.temp_min) - 273) }
                             </th>
                             <th>
                                 { additionalWeather.weather[0].main }
                             </th>
                             <th>
-                                { _.round((weather.temperature -32) / 1.8) }
+                                { roundData((weather.temperature -32) / 1.8) }
                             </th>
                             <th>
-                                { _.round((weather.apparentTemperature -32) / 1.8) }
+                                { roundData((weather.apparentTemperature -32) / 1.8) }
                             </th>
                             <th>
                                 { additionalWeather.weather[0].description }
                             </th>
                             <th>
-                                { _.round(weather.windSpeed * 1.61) }
+                                { roundData(weather.windSpeed * 1.61) }
                             </th>
 
                         </tr>

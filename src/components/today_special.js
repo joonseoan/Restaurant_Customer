@@ -18,19 +18,36 @@ export default class TodaySpecial extends Component {
 
     }
 
-    
+    getFoodNames() {
 
-    
+        return(
 
-    todayMenu() {
+            
+            <tr>
+                <td>
+                    Name:
+                </td>
+                <td>
+                    Name:
+                </td>
+                <td>
+                    Name:
+                </td>
+                <td>
+                    Name:
+                </td> 
+            </tr>
+
+        );
+
+    }
+
+    getCurrentRecommendation() {
 
         return(
 
             
                 <tr>
-                    <td>
-                        Dinner
-                    </td> 
                     <td>
                         <img src= "../images/GamjaSoup_6.PNG" alt = "gamjasoup" />
                     </td>
@@ -43,12 +60,36 @@ export default class TodaySpecial extends Component {
                     <td>
                         <img src = "../images/soju_13.PNG" alt = "soju" />
                     </td>
+                
                 </tr>
+            
+
+            
 
         );
 
+    }
 
+    getPrices() {
 
+        return(
+
+            <tr>
+                    <td>
+                        Price:
+                    </td>
+                    <td>
+                        Price:
+                    </td>
+                    <td>
+                        Price:
+                    </td>
+                    <td>
+                        Price:
+                    </td> 
+            </tr>
+
+        );
     }
 
     render() {
@@ -56,13 +97,10 @@ export default class TodaySpecial extends Component {
         return (
 
             <div className = "today-special">
-                <h1> Today's special </h1>
+                <h1> Current Recommendation </h1>
                 <table border = "1">
                     <thead>
                         <tr>
-                            <th>
-                                Lunch / Dinner
-                            </th>
                             <th>
                                 Soup
                             </th>
@@ -79,8 +117,10 @@ export default class TodaySpecial extends Component {
                     </thead>
                     <tbody className = "today-speical-food" >
 
-                        { this.todayMenu () }
-                    
+                            { this.getFoodNames() }
+                            { this.getCurrentRecommendation() }
+                            { this.getPrices() }
+                        
                     </tbody>
                 </table>
 
