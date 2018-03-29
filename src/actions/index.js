@@ -85,6 +85,3 @@ export function additionalTodayWeatherInfo (branch_city) {
     });
                         
 }
-
-
-

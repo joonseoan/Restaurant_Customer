@@ -13,6 +13,7 @@ function roundData (weather) {
 
 class TodayWeather extends Component {
 
+    /*
     constructor (props) {
 
         super(props);
@@ -25,6 +26,7 @@ class TodayWeather extends Component {
         }
 
     }
+    */
 
     render() {
 
