@@ -160,33 +160,3 @@ function mapStateToProps ({ selectedCityWeather }) {
 
 export default connect (mapStateToProps)(ThreeDayWeather);
 
-
-
-// just fyi
-    /*
-    renderDayWeather () {
-
-        // OMG!!! Why I did this?
-
-        
-      const splitDayData = this.threeDayData().map(( data, index) => {
-        
-        const first = [];
-        const second = [];
-        const third = [];
-
-        (index < 8) ? first.push(data) : first;
-        (index > 7 && index < 16) ? second.push(data) : second;
-        (index > 15) ? third.push(data) : third;
-
-        index++;
-
-       });
-
-       console.log('firstDay: ', firstDay);
-       console.log('secondDay: ', secondDay);
-       console.log('thirdDay: ', thirdDay);
-      
-    }
-    
-    */

@@ -96,8 +96,6 @@ class BranchList extends Component {
                         
                     />
 
-
-
                 </div>
 
                 <div>

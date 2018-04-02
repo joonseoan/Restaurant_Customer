@@ -6,7 +6,7 @@ export default function (state = null, action) {
 
         case FETCH_FIVE_DAYS_WEATHER:
 
-            console.log('FETCH_FIVE_DAYS_WEATHER: ', action.payload.data);
+           // console.log('FETCH_FIVE_DAYS_WEATHER: ', action.payload.data);
 
             /** reminder: must use "payload" */
             //console.log('action.payload :  ', action.payload.data)

@@ -11,30 +11,15 @@ function roundData (weather) {
 
 }
 
-class TodayWeather extends Component {
+function TodayWeather (props) {
 
-    /*
-    constructor (props) {
-
-        super(props);
-        
-        this.state = {
-
-            weather : null,
-            additionalWeather: null
-
-        }
-
-    }
-    */
-
-    render() {
-
-        if (!this.props.todayWeather || !this.props.additionalTodayWeather)
+    if (!props.todayWeather || !props.additionalTodayWeather)
         return (<div>Loading...</div>);
 
-       const weather = this.props.todayWeather;
-       const additionalWeather = this.props.additionalTodayWeather;
+        const weather = props.todayWeather;
+        const additionalWeather = props.additionalTodayWeather;
+
+       // console.log('today_weather', props.todayWeather)
         
         return(
         
@@ -109,11 +94,10 @@ class TodayWeather extends Component {
 
             </div>);
 
-    }
 }
 
 function mapStateToProps ({ todayWeather, additionalTodayWeather }) {
-    
+
     return({ todayWeather, additionalTodayWeather });
 
 }

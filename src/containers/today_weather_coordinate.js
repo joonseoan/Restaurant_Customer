@@ -60,4 +60,3 @@ class TodayWeatherCoordinate extends Component  {
 }
  
 export default connect(null, { todayWeatherInfo })(TodayWeatherCoordinate);
-

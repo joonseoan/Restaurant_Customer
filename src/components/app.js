@@ -7,6 +7,9 @@ import ThreeDayWeather from '../containers/three_day_weather';
 // import TodaySpecial from './today_special';
 import RecommendationMenu from '../containers/recommendation_menu';
 
+// --------------message --------------
+import MessageList from '../message_board_components/message_list';
+
 
 class App extends Component {
 
@@ -18,6 +21,7 @@ class App extends Component {
                
             <BranchList />
             <RecommendationMenu />
+            <MessageList />
             {/*<TodaySpecial/>*/}
             {/*<ThreeDayWeather /> */} 
 

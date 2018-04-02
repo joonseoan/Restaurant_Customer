@@ -10,10 +10,12 @@ import { Open_Weather_Key,
          DarkSky_Weather_Key,
          Gmap_Api_Key } from './keyValue';
 
+
 const TodayURL = `http://api.openweathermap.org/data/2.5/weather?appid=${Open_Weather_Key}`;
 const FiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?appid=${Open_Weather_Key}`;
 const GoogleURL = 'https://maps.googleapis.com/maps/api/geocode/json?address';
 
+const fs = require('fs');
 
 export function weatherInfo(branch_city) {
 
@@ -31,7 +33,6 @@ export function weatherInfo(branch_city) {
 }
 
 export function location(branch_city) {
-    console.log('action location', branch_city)
 
     const  URL = `${GoogleURL}=${branch_city}&key=${Gmap_Api_Key}`;
 
@@ -58,8 +59,6 @@ export function todayWeatherInfo (lat, lng) {
     DarkSkyApi.apiKey = DarkSky_Weather_Key;
     const request = DarkSkyApi.loadCurrent(position);
     
-    //console.log('request in Fetch Today Weather : ', request);
-    
     return ({
 
         type: FETCH_TODAY_WEATHER,
@@ -76,11 +75,22 @@ export function additionalTodayWeatherInfo (branch_city) {
 
     const request = axios.get(URL);
 
-    console.log ('addigtional Today: ', request)
     return ({
 
         type: FETCH_ADDITIONAL_TODAY_WEATHER,
         payload: request 
+
+    });
+                        
+}
+
+export function messagePost () {
+
+
+    return ({
+
+        //type: FETCH_ADDITIONAL_TODAY_WEATHER,
+        // payload: request 
 
     });
                         

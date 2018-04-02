@@ -24,6 +24,8 @@ function soup (temp, value, soup) {
 
     }
 
+    // console.log('soupValue', value)
+
 
     if (value <= 9 && value > 6) {
 
@@ -64,7 +66,8 @@ function main(temp, value, main) {
          value = value + 4;
  
      }
- 
+     
+     // console.log('mainValue', value)
  
      if (value <= 9 && value > 6) {
  
@@ -105,6 +108,8 @@ function side(temp, value, side) {
          value = value + 4;
  
      }
+
+    //  console.log('sideValue', value)
  
      if (value <= 9 && value > 6) {
  
@@ -128,6 +133,8 @@ function drink(drink) {
 
 }
 
+let keyValue = 0;
+
 export default class RecommendedMenu extends Component {
 
     constructor (props) {
@@ -143,78 +150,91 @@ export default class RecommendedMenu extends Component {
         }
     }
 
+    setCurrentMenu (inputData) {
+
+        if (inputData === undefined || !inputData) 
+            inputData = this.props;
+
+            const { menu, temp, value } = inputData;
+    
+            const selectedSoup = soup(temp, value, menu.soup);
+            const selectedMain = main(temp, value, menu.main);
+            const selectedSide = side(temp, value, menu.side);
+            const selectedDrink = drink(menu.drink);
+    
+            this.setState({ 
+                
+                names : [ 
+                    
+                    selectedSoup.name,
+                    selectedMain.name,
+                    selectedSide.name,
+                    selectedDrink.name
+    
+                ],
+    
+                files : [
+    
+                    selectedSoup.file,
+                    selectedMain.file,
+                    selectedSide.file,
+                    selectedDrink.file
+    
+                ],
+    
+                prices : [
+    
+                    selectedSoup.price,
+                    selectedMain.price,
+                    selectedSide.price,
+                    selectedDrink.price
+    
+                ]
+            
+            });
+
+    }
+
     componentDidMount() {
 
-        const { menu, temp, value } = this.props;
-        const selectedSoup = soup(temp, value, menu.soup);
-        const selectedMain = main(temp, value, menu.main);
-        const selectedSide = side(temp, value, menu.side);
-        const selectedDrink = drink(menu.drink);
-
-        this.setState({ 
-            
-            names : [ 
-                
-                selectedSoup.name,
-                selectedMain.name,
-                selectedSide.name,
-                selectedDrink.name
-
-            ],
-
-            files : [
-
-                selectedSoup.file,
-                selectedMain.file,
-                selectedSide.file,
-                selectedDrink.file
-
-            ],
-
-            prices : [
-
-                selectedSoup.price,
-                selectedMain.price,
-                selectedSide.price,
-                selectedDrink.price
-
-            ]
+        this.setCurrentMenu();
         
-        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        console.log('nextProps inside: ', nextProps)
+
+        this.setCurrentMenu(nextProps);
+
     }
 
     makeList(things) {
 
-        // str.endsWith('question.')
+        if (keyValue === 4) keyValue = 0;
 
-        // things.endsWith('.PNG');
-        // console.log(dd)
-        /*
-        let verification =  things.endsWith('.PNG');
-
-        if (verification === true) {
+        console.log(keyValue);
+        
+        if (typeof things === 'string' && things.endsWith('.PNG')) {
 
             const src = `../images/${things}`;
 
-            return (
-            
-            <th key = {things}>  </th>
-            
-            );
         
-        } else {
-            */
             return (
 
-                <th key = { things }> { things } </th>
+                <th key = { keyValue++ }><img src = { src } alt = { things }/> </th>
+            
+            );
+        }
+
+        return (
+
+            <th key = { keyValue++ }> { things } </th>
     
-            );
-
-        //}
-            
-        
-        
+        );
+ 
     }
+
 
     render () {
 
@@ -237,6 +257,7 @@ export default class RecommendedMenu extends Component {
                     { this.state.prices.map(this.makeList) }
         
                 </tr>
+
             </tbody>
     
         );
