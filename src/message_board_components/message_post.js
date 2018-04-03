@@ -14,7 +14,8 @@ class MessagePost extends Component {
             <div>
 
                 <div>
-                    Making Message Board. Exciting - post a message here.
+                    <p>Making Message Board. Exciting - post a message here.</p>
+                    <p>It will be constructed with a web server and MongoDB.</p>
                 </div>
                 <div>
                     <Link className = " btn btn-primary" to = "/">

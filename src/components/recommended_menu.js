@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 function soup (temp, value, soup) {
 
@@ -29,15 +31,15 @@ function soup (temp, value, soup) {
 
     if (value <= 9 && value > 6) {
 
-        return soup[1].id_1;
+        return soup[1];
     
     } else if (value <= 6 && value > 3) {
 
-        return soup[2].id_2;
+        return soup[2];
     
     } else {
 
-        return soup[0].id_0;
+        return soup[0];
 
     }
 
@@ -71,15 +73,15 @@ function main(temp, value, main) {
  
      if (value <= 9 && value > 6) {
  
-         return main[1].id_1;
+         return main[1];
      
      } else if (value <= 6 && value > 3) {
  
-         return main[2].id_2;
+         return main[2];
      
      } else {
  
-         return main[0].id_0;
+         return main[0];
  
      }
 
@@ -113,15 +115,15 @@ function side(temp, value, side) {
  
      if (value <= 9 && value > 6) {
  
-         return side[1].id_1;
+         return side[1];
      
      } else if (value <= 6 && value > 3) {
  
-         return side[2].id_2;
+         return side[2];
      
      } else {
  
-         return side[0].id_0;
+         return side[0];
  
      }
 
@@ -129,11 +131,9 @@ function side(temp, value, side) {
 
 function drink(drink) {
  
-    return drink[0].id_0; 
+    return drink[0]; 
 
 }
-
-let keyValue = 0;
 
 export default class RecommendedMenu extends Component {
 
@@ -143,13 +143,14 @@ export default class RecommendedMenu extends Component {
 
         this.state = {
 
-            names : [],
-            files : [],
-            prices : []
+            selectedSoup : null,
+            selectedMain : null,
+            selectedSide : null,
+            selectedDrink : null
 
         }
     }
-
+     
     setCurrentMenu (inputData) {
 
         if (inputData === undefined || !inputData) 
@@ -161,36 +162,14 @@ export default class RecommendedMenu extends Component {
             const selectedMain = main(temp, value, menu.main);
             const selectedSide = side(temp, value, menu.side);
             const selectedDrink = drink(menu.drink);
-    
-            this.setState({ 
-                
-                names : [ 
-                    
-                    selectedSoup.name,
-                    selectedMain.name,
-                    selectedSide.name,
-                    selectedDrink.name
-    
-                ],
-    
-                files : [
-    
-                    selectedSoup.file,
-                    selectedMain.file,
-                    selectedSide.file,
-                    selectedDrink.file
-    
-                ],
-    
-                prices : [
-    
-                    selectedSoup.price,
-                    selectedMain.price,
-                    selectedSide.price,
-                    selectedDrink.price
-    
-                ]
-            
+
+            this.setState({
+
+                selectedSoup,
+                selectedMain,
+                selectedSide,
+                selectedDrink 
+
             });
 
     }
@@ -209,57 +188,61 @@ export default class RecommendedMenu extends Component {
 
     }
 
-    makeList(things) {
-
-        if (keyValue === 4) keyValue = 0;
-
-        console.log(keyValue);
+    // should dry out down below!!!!
+    makeNameList(names) {
+  
+        return <td key = { names.id }>{ names.name }</td>;
         
-        if (typeof things === 'string' && things.endsWith('.PNG')) {
-
-            const src = `../images/${things}`;
-
-        
-            return (
-
-                <th key = { keyValue++ }><img src = { src } alt = { things }/> </th>
-            
-            );
-        }
-
-        return (
-
-            <th key = { keyValue++ }> { things } </th>
-    
-        );
- 
     }
 
+    makeFileList(files) {
+
+        const src = `../images/${ files.file }`;
+
+        return <td key= { files.id }>
+            
+            <Link to = {`/description/${ files.name }`}>
+
+                <img src = { src } alt = { files.file }/>
+
+            </Link>
+                
+        </td>;
+
+    }
+
+    makePriceList(prices) {
+
+        return <td key= { prices.id }>${ prices.price }</td>;
+
+    }
 
     render () {
 
+        if(!this.state.selectedSoup || !this.state.selectedMain 
+            || !this.state.selectedSide || !this.state.selectedDrink)
+        return (<tbody><tr><td>'Loading...'</td></tr></tbody>);
+
+        const selectedMenu = _.map(this.state);
+      
         return (
-        
+
             <tbody>
 
                 <tr>
-
-                    { this.state.names.map(this.makeList) }
-                
+                    { selectedMenu.map(this.makeNameList) }
                 </tr>
-                <tr>
 
-                    { this.state.files.map(this.makeList) }
+                <tr>
+                    { selectedMenu.map(this.makeFileList) }    
+                </tr>
+
+                <tr>
+                    { selectedMenu.map(this.makePriceList) }    
+                </tr>
             
-                </tr>
-                <tr>
-
-                    { this.state.prices.map(this.makeList) }
-        
-                </tr>
-
             </tbody>
-    
+ 
         );
 
     }

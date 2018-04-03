@@ -7,7 +7,7 @@ class GoogleMAP extends Component{
     if (!coordinate)
       coordinate = this.props;
 
-    // eslint-disable-next-line 
+    // eslint-disable-next-line     
     new google.maps.Map(this.refs.map, {
 
       zoom: 12, //zoom level that will be displayed 
