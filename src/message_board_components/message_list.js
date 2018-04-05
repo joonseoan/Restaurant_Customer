@@ -11,7 +11,7 @@ class MessageList extends Component {
 
             <div>
                 <Link className = "btn btn-primary" to = "messagePost">
-                    Guestbook.
+                    Guestbook
                 </Link>
             </div>
 

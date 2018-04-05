@@ -15,11 +15,10 @@ import RecommendationDescriptions from './components/current_recommendations/rec
 
 import reducers from './reducers';
 
-
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 ReactDOM.render(
-    <Provider store = { createStoreWithMiddleware (reducers)} >
+    <Provider store = { createStoreWithMiddleware(reducers)} >
 
         <BrowserRouter>
             <div>

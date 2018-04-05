@@ -1,73 +1,77 @@
 import React, { Component } from 'react';
 
-export default class DateTimeDisplay extends Component {
+let startInverval;
 
+export default class DateTimeDisplay extends Component {
+    
     constructor (props) {
 
         super(props);
 
         this.state = {
 
-            date : new Date(),
+            date : new Date()
 
         }
-
-        this.initialTime = this.initialTime.bind(this);
 
     }
 
-    initialTime() {
 
-        let realTime = new Date();
-    
-        if (this.props.branch_city === 'Vancouver') {
+    setClock( branch_city ) {
 
-            let vancouverTime = realTime.getTime() - 10800000;
-            
-            this.setState({
-                
-                date : new Date(vancouverTime)
-    
-            });
-    
-        } else {
-    
-            
-            this.setState({
-    
-                date: realTime
-    
-            });
-    
-        }
+        if (branch_city === undefined)
+        branch_city = this.props.branch_city;
+
+        startInverval = setInterval (() => {
+
+            const dateTime = new Date();
+            const vancouverTime = dateTime.getTime() - 10800000; 
+
+            branch_city !== 'Vancouver' ? this.setState({ date : dateTime }) 
+            : this.setState({ date : new Date(vancouverTime) }) ;
+
+        }, 1000);
 
     }
 
     componentDidMount () {
 
-        setInterval( this.initialTime, 1000 );
+        this.setClock();
 
     }
 
+    componentWillReceiveProps (nextProps) {
 
-    render() {
+        clearInterval(startInverval);
 
-        let dateTime = this.state.date;
-        let hours = dateTime.getHours() > 12 ? dateTime.getHours()-12 : dateTime.getHours();
-        let minutes = dateTime.getMinutes() < 10 ? `0${ dateTime.getMinutes()}` : dateTime.getMinutes();
-        let seconds = dateTime.getSeconds() < 10 ? `0${ dateTime.getSeconds()}` : dateTime.getSeconds();
+        const { branch_city } = nextProps;
+        
+        this.setClock(branch_city);
+
+    }
+
+    render () {
+
+        //if (!this.props) return <div>Loading....</div>;
+        
+        const hours = this.state.date.getHours() > 12 ? this.state.date.getHours()-12 : this.state.date.getHours();
+        const minutes = this.state.date.getMinutes() < 10 ? `0${ this.state.date.getMinutes()}` : this.state.date.getMinutes();
+        const seconds = this.state.date.getSeconds() < 10 ? `0${ this.state.date.getSeconds()}` : this.state.date.getSeconds();
 
         return (
 
-            <div>
-                    Date: { dateTime.toDateString() }
+            <div> 
+                    Date : { this.state.date.toDateString()} 
                     , Time: { hours < 10 ? `0${hours}` : hours } 
                     : { minutes }
                     : { seconds }
+            
             </div>
 
         );
 
+
     }
 
 }
+

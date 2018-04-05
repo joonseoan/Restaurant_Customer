@@ -13,8 +13,7 @@ function RecommendationMenu (props) {
         const { main } = props.additionalTodayWeather.weather[0];
         const { apparentTemperature } = props.todayWeather;
 
-        // console.log(main)
-
+        console.log ('props.menu', props.menu)
         return (
 
             <div className = "today-special">
@@ -36,6 +35,9 @@ function RecommendationMenu (props) {
                             </th>
                             <th>
                                 Liquor
+                            </th>
+                            <th>
+                                Soda
                             </th>
                         </tr>
 

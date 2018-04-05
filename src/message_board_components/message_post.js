@@ -18,7 +18,7 @@ class MessagePost extends Component {
                     <p>It will be constructed with a web server and MongoDB.</p>
                 </div>
                 <div>
-                    <Link className = " btn btn-primary" to = "/">
+                    <Link className = "btn btn-primary" to = "/">
                         Back to main page.
                     </Link>
                 </div>

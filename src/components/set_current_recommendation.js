@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'lodash';
 
 import RecommendedMenu from './recommended_menu';
@@ -42,6 +42,8 @@ function setWeather (getWeather) {
 export default function SetCurrentRecommendation (props) {
 
         const { inputMenus, temperature, mainWeather } = props;
+
+        console.log('inputMenu', inputMenus)
 
         const getWeather = regexFilter(mainWeather);
         

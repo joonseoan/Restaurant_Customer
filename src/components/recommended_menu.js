@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 function soup (temp, value, soup) {
 
+    // console.log('soup', soup)
+
     if (temp > 20) {
 
        value = value + 0;
@@ -29,17 +31,21 @@ function soup (temp, value, soup) {
     // console.log('soupValue', value)
 
 
-    if (value <= 9 && value > 6) {
+    if (value <= 9 && value > 7) {
 
-        return soup[1];
+        return soup[3];
     
-    } else if (value <= 6 && value > 3) {
-
-        return soup[2];
-    
-    } else {
+    } else if (value <= 7 && value > 5) {
 
         return soup[0];
+    
+    } else if (value <= 5 && value > 3) {
+
+        return soup[2];
+
+    } else {
+
+        return soup[1];
 
     }
 
@@ -70,20 +76,23 @@ function main(temp, value, main) {
      }
      
      // console.log('mainValue', value)
- 
-     if (value <= 9 && value > 6) {
- 
-         return main[1];
-     
-     } else if (value <= 6 && value > 3) {
- 
-         return main[2];
-     
-     } else {
- 
-         return main[0];
- 
-     }
+     if (value <= 9 && value > 7) {
+
+        return main[0];
+    
+    } else if (value <= 7 && value > 5) {
+
+        return main[2];
+    
+    } else if (value <= 5 && value > 3) {
+
+        return main[1];
+
+    } else {
+
+        return main[3];
+
+    }
 
 }
 
@@ -112,26 +121,71 @@ function side(temp, value, side) {
      }
 
     //  console.log('sideValue', value)
- 
-     if (value <= 9 && value > 6) {
- 
-         return side[1];
-     
-     } else if (value <= 6 && value > 3) {
- 
-         return side[2];
-     
-     } else {
- 
-         return side[0];
- 
-     }
+    if (value <= 9 && value > 7) {
+
+        return side[3];
+    
+    } else if (value <= 7 && value > 5) {
+
+        return side[0];
+    
+    } else if (value <= 5 && value > 3) {
+
+        return side[2];
+
+    } else {
+
+        return side[1];
+
+    }
 
 }
 
-function drink(drink) {
+function drink(temp, value, drink) {
  
-    return drink[0]; 
+    if (temp > 22) {
+
+        value = value + 0;
+ 
+     } else if (temp > 15 && temp <= 22) {
+ 
+         value = value + 1;
+ 
+     } else if (temp > 8 && temp <= 15) {
+ 
+         value = value + 2;
+ 
+     } else if (temp > -1 && temp <= 8) {
+ 
+         value = value + 3;
+ 
+     } else {
+ 
+         value = value + 4;
+ 
+     }
+
+    //  console.log('sideValue', value)
+    if (value <= 9 && value > 7) {
+
+        return drink[0];
+    
+    } else if (value <= 7 && value > 5) {
+
+        return drink[1];
+
+    } else {
+
+        return drink[2];
+
+    }
+
+}
+
+function soda(soda) {
+    
+    console.log('soda',soda)
+    return soda[3];
 
 }
 
@@ -146,9 +200,13 @@ export default class RecommendedMenu extends Component {
             selectedSoup : null,
             selectedMain : null,
             selectedSide : null,
-            selectedDrink : null
+            selectedDrink : null,
+            selectedSoda : null
 
         }
+
+        this.remember = this.remember.bind(this);
+
     }
      
     setCurrentMenu (inputData) {
@@ -161,14 +219,17 @@ export default class RecommendedMenu extends Component {
             const selectedSoup = soup(temp, value, menu.soup);
             const selectedMain = main(temp, value, menu.main);
             const selectedSide = side(temp, value, menu.side);
-            const selectedDrink = drink(menu.drink);
+            const selectedDrink = drink(temp, value, menu.drink);
+            const selectedSoda = soda(menu.drink);
+
 
             this.setState({
 
                 selectedSoup,
                 selectedMain,
                 selectedSide,
-                selectedDrink 
+                selectedDrink,
+                selectedSoda
 
             });
 
@@ -195,6 +256,14 @@ export default class RecommendedMenu extends Component {
         
     }
 
+    remember() {
+
+      
+        
+        
+
+    }
+
     makeFileList(files) {
 
         const src = `../images/${ files.file }`;
@@ -203,7 +272,7 @@ export default class RecommendedMenu extends Component {
             
             <Link to = {`/description/${ files.name }`}>
 
-                <img src = { src } alt = { files.file }/>
+                <img src = { src } alt = { files.file } />
 
             </Link>
                 
@@ -223,6 +292,8 @@ export default class RecommendedMenu extends Component {
             || !this.state.selectedSide || !this.state.selectedDrink)
         return (<tbody><tr><td>'Loading...'</td></tr></tbody>);
 
+        //console.log('this.props', this.props)
+
         const selectedMenu = _.map(this.state);
       
         return (
@@ -233,7 +304,7 @@ export default class RecommendedMenu extends Component {
                     { selectedMenu.map(this.makeNameList) }
                 </tr>
 
-                <tr>
+                <tr onClick = {this.remember}>
                     { selectedMenu.map(this.makeFileList) }    
                 </tr>
 

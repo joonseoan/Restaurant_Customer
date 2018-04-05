@@ -15,8 +15,6 @@ const TodayURL = `http://api.openweathermap.org/data/2.5/weather?appid=${Open_We
 const FiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?appid=${Open_Weather_Key}`;
 const GoogleURL = 'https://maps.googleapis.com/maps/api/geocode/json?address';
 
-const fs = require('fs');
-
 export function weatherInfo(branch_city) {
 
     const URL = `${ FiveDaysURL }&q=${ branch_city },canada`;

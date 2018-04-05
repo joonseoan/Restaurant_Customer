@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -8,7 +9,6 @@ import { weatherInfo, location, additionalTodayWeatherInfo } from '../actions';
 import DateTimeDisplay from '../components/date_time_display';
 import LocationCoordinate from './location_coordinate';
 
-// import GoogleMap from '../components/google_map';
 
 const options = [ 
     
@@ -17,6 +17,7 @@ const options = [
     { value: 'Ottawa', label: 'Ottawa' }
 
 ];
+
 
 let startInterval;
 
@@ -34,13 +35,16 @@ class BranchList extends Component {
 
         this.onInputChange = this.onInputChange.bind(this); 
 
+        
     }
     
     setTodayWeatherInfo(branch_city) {
 
         this.setState({ 
+
+            value : window.localStorage.getItem('ddd')
             
-            value : branch_city
+            //value : branch_city
  
         });
 
@@ -66,25 +70,35 @@ class BranchList extends Component {
 
     }
 
-    onInputChange (value) {
+    // onInputChange (value) {
 
-        clearInterval(startInterval);
+    onInputChange (value) {
         
+        clearInterval(startInterval);
+        console.log('value: ', value) ;
         const branch_city = value.value; 
 
         this.setTodayWeatherInfo(branch_city);
 
+        window.localStorage.setItem('ddd', branch_city);
+        
+        
     }
 
     render() {
+        
+
 
         if(!this.state.value)
         return (<div>Loading...</div>);
 
+      //  window.localStorage.setItem('ddd', this.props);
+      //  const dd = window.localStorage.getItem('ddd');
+        
+
         return (
 
             <div>
-            
                 <div>
                     
                     <Select
