@@ -43,15 +43,12 @@ export default function SetCurrentRecommendation (props) {
 
         const { inputMenus, temperature, mainWeather } = props;
 
-        console.log('inputMenu', inputMenus)
-
         const getWeather = regexFilter(mainWeather);
         
         let feelTemp = _.round((temperature - 32) / 1.8);
         feelTemp = parseInt(feelTemp);
        
         const indexValue = setWeather(getWeather);
-        console.log('indexValue: ', indexValue);
     
         return (
 

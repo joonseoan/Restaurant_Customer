@@ -5,27 +5,56 @@ import _ from 'lodash';
 
 function RecommendationDescriptions (props) {
 
-        if(!props) return <div>Loading....</div>
+    if(!props) return <div>Loading....</div>
         
-         const srcMenu = `../images/${ props.menuView.file }`;
-         const srcSpicy = `../images/${ props.menuView.spicy }`;
+         const path = '../images/';
 
+         const { name, description, file, price, spicy, carlorie } = props.selectedMenu;
+
+         const picList = () =>{
+
+            return props.theOthers.map( (pic) => { 
+
+                return  <Link to = {`/description/${ pic.name }`}>
+                
+                            <img key = { pic.id } src = { path + pic.file } alt= {pic.name} width = "200" />
+                        
+                        </Link>
+
+            });             
+
+        }
+
+        const beverage = () => {
+
+            if(spicy) {
+
+                return <img src = { path + spicy } alt = { name }/>
+            }
+        }
+        
         return( 
             <div>
     
                 <div>
-                    <h3>[{props.menuView.name}]</h3>
-                    <img src = { srcSpicy } alt = { props.menuView.spicy }/>
-                    <img src = { srcMenu } alt = { props.menuView.name }/>
-                    <h4>{ props.menuView.description }</h4>
-                    <p>{ props.menuView.carlorie }Kal</p>
-                    <p>${ props.menuView.price }</p>
+
+                    <h3>[{ name }] : ${ price }</h3> 
+                    <img src = { path + file } alt = { spicy }/>
+                    { beverage() }
+                    <h4>{ description } ({ carlorie } cal)</h4>
+
+                    {/* should put ingredients*/}
+                       
                 </div>
+                
+                <div>
+                    { picList() }
+                </div>
+
                 <div>
                     <Link className = "btn btn-primary" to = {'/'} >
                         Back to the main page
                     </Link>
-                    
                 </div>
     
             </div>
@@ -36,21 +65,31 @@ function RecommendationDescriptions (props) {
 function mapStateToProps ({ menu }, ownProps) {
 
     let selectedMenu;
-
+    let selectedMenuType;
+    
     _.map(menu, (menuType) => {
 
         menuType.map((menuItem) => {
-
+            
             if (menuItem.name === ownProps.match.params.id) {
-
+                                
+                selectedMenuType = menuType;
                 selectedMenu = menuItem;
 
             }
+
         });
 
     });
+
+    const theOthers = selectedMenuType.filter(item => item !== selectedMenu);
     
-    return { menuView : selectedMenu}
+    return { 
+        
+        selectedMenu,
+        theOthers
+        
+    }
 
 }
 

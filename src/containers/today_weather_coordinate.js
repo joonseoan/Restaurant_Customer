@@ -17,12 +17,15 @@ class TodayWeatherCoordinate extends Component  {
 
         this.props.todayWeatherInfo(lat, lng);
 
+        if (startInterval) clearInterval(startInterval);
+
         startInterval = setInterval(() => {
 
+            console.log('todayWeatherInfo (lat, lng) input', lat, lng)
+
             this.props.todayWeatherInfo(lat, lng);
-            console.log('I hate western Asian')
             
-        }, 600000); 
+        }, 300000); 
 
     }
 
@@ -34,8 +37,6 @@ class TodayWeatherCoordinate extends Component  {
     }
     
     componentWillReceiveProps(nextProps) {
-
-        clearInterval(startInterval);
 
         this.setTodayWeather(nextProps);
 

@@ -184,7 +184,7 @@ function drink(temp, value, drink) {
 
 function soda(soda) {
     
-    console.log('soda',soda)
+    //console.log('soda',soda)
     return soda[3];
 
 }
@@ -204,8 +204,6 @@ export default class RecommendedMenu extends Component {
             selectedSoda : null
 
         }
-
-        this.remember = this.remember.bind(this);
 
     }
      
@@ -243,7 +241,8 @@ export default class RecommendedMenu extends Component {
 
     componentWillReceiveProps(nextProps) {
 
-        console.log('nextProps inside: ', nextProps)
+        // 반드시 수정 4번 반복.....
+        // console.log('nextProps inside: ', nextProps)
 
         this.setCurrentMenu(nextProps);
 
@@ -304,7 +303,7 @@ export default class RecommendedMenu extends Component {
                     { selectedMenu.map(this.makeNameList) }
                 </tr>
 
-                <tr onClick = {this.remember}>
+                <tr>
                     { selectedMenu.map(this.makeFileList) }    
                 </tr>
 
