@@ -21,3 +21,17 @@
     height: auto;
 
 }
+
+.all-menu td {
+
+        border-left: 2px solid red;
+        padding: 10px;
+        
+
+}
+
+.all-menu-pictures {
+
+    border-bottom: 2px solid red;
+    padding: 10px;
+}

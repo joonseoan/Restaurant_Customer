@@ -15,9 +15,9 @@ function RecommendationDescriptions (props) {
 
             return props.theOthers.map( (pic) => { 
 
-                return  <Link to = {`/description/${ pic.name }`}>
+                return  <Link to = {`/description/${ pic.name }`} key = { pic.id }>
                 
-                            <img key = { pic.id } src = { path + pic.file } alt= {pic.name} width = "200" />
+                            <img src = { path + pic.file } alt= {pic.name} width = "200" />
                         
                         </Link>
 

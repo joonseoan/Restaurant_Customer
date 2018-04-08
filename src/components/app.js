@@ -10,6 +10,9 @@ import RecommendationMenu from '../containers/recommendation_menu';
 // --------------message --------------
 import MessageList from '../message_board_components/message_list';
 
+// menu List
+import MenuList from '../containers/menu_list';
+
 
 class App extends Component {
 
@@ -23,7 +26,12 @@ class App extends Component {
                
             <BranchList />
             <RecommendationMenu />
-            <MessageList />
+            <div>
+                <MenuList />
+            </div>
+            <div>
+                <MessageList />
+            </div>
             {/*<TodaySpecial/>*/}
             {/*<ThreeDayWeather /> */} 
 
