@@ -6,8 +6,6 @@ import _ from 'lodash';
 
 import { Link } from 'react-router-dom';
 
-
-
 let name_price = [];
 
 class MenuList extends Component {
@@ -18,10 +16,9 @@ class MenuList extends Component {
 
         this.state = {
 
-            name_price: [],
-            value : 0
-
-        }
+            name_price: []
+            
+        };
 
     }
 
@@ -37,22 +34,39 @@ class MenuList extends Component {
 
         const name = event.target.name;
         const value = event.target.value;
+        const checked = event.target.checked;
 
-        const nameValue = { [name] : value };
+        const nameValueStatus = { 
+            
+            name,
+            value,
+            checked
+        
+        };
 
-        name_price = [...name_price, nameValue];
+        if (nameValueStatus.checked === false) name_price.map( (menu) =>{
 
-        this.setState({
+            if (menu.name === nameValueStatus.name) {
 
-            name_price
-            // bgcolor : '#00FF00'
+                const index = name_price.indexOf(menu);
+                name_price.splice(index, 1);
+
+            }
 
         });
 
+        if (nameValueStatus.checked === true) name_price = [...name_price, nameValueStatus];
         
+        
+  
+        this.setState({  
+            
+            name_price
+        
+        }); 
+        
+        // document.getElementsByClassName(this.state.name_price.name).bgcolor = 'yellow';
     }
-
-
     
     numberOnChange (event) {
 
@@ -81,11 +95,10 @@ class MenuList extends Component {
 
         });
     }
-    
 
     allMenuContents () {
 
-        console.log('props: ', this.props)
+        console.log('props: ', this.props);
 
         const path = './images/';
 
@@ -106,41 +119,37 @@ class MenuList extends Component {
         
         const menuPrices = (item) => {
 
-            console.log('this.state.pricie', this.state.name_price);
-            console.log('item.name', item.name)
-
             let bgcolor;
 
-            if (this.state.name_price.length > 0)
-            {
-                console.log('this.state.nameprice[0]:',this.state.name_price[0])
-                var keyNames = Object.keys(this.state.name_price[this.state.name_price.length - 1]);
+            if(this.state.name_price.length > 0) {
+
+             this.state.name_price.map(menu => {
+
+                   bgcolor = item.name === menu.name ? 'yellow' : '';
+
+                });
                 
-                bgcolor = keyNames[0] === item.name ?  '#00FF00' : '';
-
             }
-           
-
-           //  if (item.name === this.state.name_price)
 
             return (
-    
-                <td key = { item.name } width = "300" height = "50" bgcolor = { bgcolor }> 
-                
+             
+                <td key = { item.name } width = "300" height = "50" className = { item.name } bgcolor = {bgcolor} >
+
                     <div >
     
                         <div>
                         
-                            <label>
+                            <label >
                                         
                                 <h5>{ item.name } (${ item.price }) </h5> 
-                                <input type = "checkbox" name = { item.name } 
+                                <input type = "checkbox" className = "input-checkbox" name = { item.name } 
                                     value = { item.price } onChange = { this.menuOnChange.bind(this) } />
-                             
                                 
                                 <p> {item.description} </p>
     
                             </label>
+
+                            <div><h3>{this.state.order}</h3></div>
     
                         </div>
                                 
@@ -169,7 +178,7 @@ class MenuList extends Component {
                
             return (
     
-                <td key = { item.name } className = "all-menu-pictures" bgcolor = { this.bgcolorSelect }>
+                <td key = { item.name } className = "all-menu-pictures" >
                     <Link to = { `/description/${item.name}`} key = { item.id }>
                                 
                        <img src = { path + item.file } alt = { item.name } width = "200" />
