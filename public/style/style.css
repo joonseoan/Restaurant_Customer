@@ -30,17 +30,28 @@
 
 }
 
-.all-menu-pictures {
+#all-pictures {
 
     border-bottom: 2px solid red;
     padding: 10px;
 
 }
 
-
 .input-checkbox:checked {
 
     height: 30px;
     width : 30px;
 
+}
+
+td.input-checkbox:checked {
+
+    background-color: blue;
+
+}
+
+#number-input{
+
+    visibility: hidden;
+    
 }

@@ -6,7 +6,36 @@ import _ from 'lodash';
 
 import { Link } from 'react-router-dom';
 
+
 let name_price = [];
+
+function removeSpace(name) {
+
+    return name.replace(/\s/g, "");
+
+}
+
+/*
+function insertNumberOrders() {
+
+    let input = document.createElement("INPUT");
+    input.type = "number";
+    // var textnode = document.createTextNode("Water");
+    node.appendChild(textnode);
+    document.getElementById("myList").appendChild(node);
+}
+*/
+/**
+ * 
+ *  Number of Orders : 
+                                { <div className = "btn btn-primary" onClick = { this.decreaseValue.bind(this) }>-</div> }
+                                <input type = "number" name = { item.name } 
+                                    value = { this.state.value } onChange = { this.numberOnChange.bind(this) }/>
+                                {<div className = "btn btn-primary" onClick = { this.increaseValue.bind(this) }>+</div>}
+ */
+
+
+// MAKE A "Touch to order....state"
 
 class MenuList extends Component {
 
@@ -17,6 +46,7 @@ class MenuList extends Component {
         this.state = {
 
             name_price: []
+           // display : blcok
             
         };
 
@@ -26,7 +56,6 @@ class MenuList extends Component {
 
         console.log(event)
         event.preventDefault();
-        // event.defaultPrevented();
 
     }
 
@@ -51,28 +80,53 @@ class MenuList extends Component {
                 const index = name_price.indexOf(menu);
                 name_price.splice(index, 1);
 
+                document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[0]
+                    .style.backgroundColor = '';
+
+                document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[1]
+                    .style.backgroundColor = '';
+
+                // document.querySelector(`label.${removeSpace(nameValueStatus.name)}`).innerHTML = '';
+
+                document.querySelector(`label.${removeSpace(nameValueStatus.name)}`).style.visibility = 'hidden';
+
             }
 
         });
 
-        if (nameValueStatus.checked === true) name_price = [...name_price, nameValueStatus];
+        if (nameValueStatus.checked === true) {
+
+            name_price = [...name_price, nameValueStatus];
+
+            //no way to use react??
+            document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[0]
+                .style.backgroundColor = '#FFFF66';
+
+            document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[1]
+                .style.backgroundColor = 'yellow';
+
+            //document.querySelector(`label.${removeSpace(nameValueStatus.name)}`).innerHTML = 'Number of Orders: ';
+            
+            const order = document.querySelector(`label.${removeSpace(nameValueStatus.name)}`);
+                order.style.visibility = 'visible'
+                //order.innerHTML = 'ddd';
+            
+            
+        } 
         
-        
-  
         this.setState({  
             
             name_price
         
         }); 
-        
-        // document.getElementsByClassName(this.state.name_price.name).bgcolor = 'yellow';
+
     }
     
     numberOnChange (event) {
 
         console.log('event.target',event.target)
-    }
 
+    }
 
     decreaseValue () {
 
@@ -98,7 +152,7 @@ class MenuList extends Component {
 
     allMenuContents () {
 
-        console.log('props: ', this.props);
+        // console.log('props: ', this.props);
 
         const path = './images/';
 
@@ -117,23 +171,16 @@ class MenuList extends Component {
         });
 
         
+        
         const menuPrices = (item) => {
 
-            let bgcolor;
+        //if(!item.name) return <td>Loading.....</td>;
 
-            if(this.state.name_price.length > 0) {
-
-             this.state.name_price.map(menu => {
-
-                   bgcolor = item.name === menu.name ? 'yellow' : '';
-
-                });
-                
-            }
+        
 
             return (
              
-                <td key = { item.name } width = "300" height = "50" className = { item.name } bgcolor = {bgcolor} >
+                <td key = { item.name } width = "300" height = "50" className = { removeSpace(item.name) } >
 
                     <div >
     
@@ -155,13 +202,12 @@ class MenuList extends Component {
                                 
                         <div>
     
-                           <label>
-                               Number of orders : 
-                               <div className = "btn btn-primary" onClick = { this.decreaseValue.bind(this) }>-</div>
-                               {this.state.value }
-                               { /*<input type = "number" name = { item.name } 
-                                    value = { this.state.value } onChange = { this.numberOnChange.bind(this) }/> */}
-                               <div className = "btn btn-primary" onClick = { this.increaseValue.bind(this) }>+</div>
+                           <label className = { removeSpace(item.name) } id = "number-input" >
+                                Number of Orders: 
+                            <input type = "number" defaultValue = "1" name = { item.name } 
+                                    min = "1" onChange = { this.numberOnChange.bind(this) } />
+
+                                    
                            </label>
                                 
                         </div>
@@ -178,7 +224,7 @@ class MenuList extends Component {
                
             return (
     
-                <td key = { item.name } className = "all-menu-pictures" >
+                <td key = { item.name } className = { removeSpace(item.name) } id = "all-pictures" >
                     <Link to = { `/description/${item.name}`} key = { item.id }>
                                 
                        <img src = { path + item.file } alt = { item.name } width = "200" />
@@ -235,7 +281,7 @@ class MenuList extends Component {
 
     render () {
 
-        console.log('this.state.value', this.state.value)
+        console.log(this.state.name_price)
 
         return (
 
