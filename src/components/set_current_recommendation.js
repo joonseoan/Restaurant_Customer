@@ -3,8 +3,7 @@ import _ from 'lodash';
 
 import RecommendedMenu from './recommended_menu';
 
-
-const weatherCategories = [ 'Clear', 'Cloud', 'Drizzle', 'Mist', 'Rain', 'Snow' ];
+const weatherCategories = [ 'Clear', 'Cloud', 'Drizzle', 'Mist', 'Rain', 'Snow', 'Haze' ];
 
 function regexFilter(weather) {
     

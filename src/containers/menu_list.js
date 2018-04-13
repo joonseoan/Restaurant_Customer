@@ -15,28 +15,6 @@ function removeSpace(name) {
 
 }
 
-/*
-function insertNumberOrders() {
-
-    let input = document.createElement("INPUT");
-    input.type = "number";
-    // var textnode = document.createTextNode("Water");
-    node.appendChild(textnode);
-    document.getElementById("myList").appendChild(node);
-}
-*/
-/**
- * 
- *  Number of Orders : 
-                                { <div className = "btn btn-primary" onClick = { this.decreaseValue.bind(this) }>-</div> }
-                                <input type = "number" name = { item.name } 
-                                    value = { this.state.value } onChange = { this.numberOnChange.bind(this) }/>
-                                {<div className = "btn btn-primary" onClick = { this.increaseValue.bind(this) }>+</div>}
- */
-
-
-// MAKE A "Touch to order....state"
-
 class MenuList extends Component {
 
     constructor(props) {
@@ -45,8 +23,7 @@ class MenuList extends Component {
 
         this.state = {
 
-            name_price: []
-           // display : blcok
+            name_price: [],
             
         };
 
@@ -60,6 +37,8 @@ class MenuList extends Component {
     }
 
     menuOnChange(event) {
+
+       console.log('check.event:', event.target.value)
 
         const name = event.target.name;
         const value = event.target.value;
@@ -78,6 +57,7 @@ class MenuList extends Component {
             if (menu.name === nameValueStatus.name) {
 
                 const index = name_price.indexOf(menu);
+
                 name_price.splice(index, 1);
 
                 document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[0]
@@ -86,9 +66,7 @@ class MenuList extends Component {
                 document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[1]
                     .style.backgroundColor = '';
 
-                // document.querySelector(`label.${removeSpace(nameValueStatus.name)}`).innerHTML = '';
-
-                document.querySelector(`label.${removeSpace(nameValueStatus.name)}`).style.visibility = 'hidden';
+                document.querySelector(`div.${removeSpace(nameValueStatus.name)}`).style.display = 'none';
 
             }
 
@@ -104,14 +82,9 @@ class MenuList extends Component {
 
             document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[1]
                 .style.backgroundColor = 'yellow';
-
-            //document.querySelector(`label.${removeSpace(nameValueStatus.name)}`).innerHTML = 'Number of Orders: ';
             
-            const order = document.querySelector(`label.${removeSpace(nameValueStatus.name)}`);
-                order.style.visibility = 'visible'
-                //order.innerHTML = 'ddd';
-            
-            
+            document.querySelector(`div.${removeSpace(nameValueStatus.name)}`).style.display = 'block';
+              
         } 
         
         this.setState({  
@@ -124,35 +97,59 @@ class MenuList extends Component {
     
     numberOnChange (event) {
 
-        console.log('event.target',event.target)
+        const menuName = event.target.id;
 
-    }
+        let buttonValues = event.target.innerHTML;
 
-    decreaseValue () {
+        const label = document.querySelector(`label.${menuName}`); 
 
-        const value = this.state.value - 1;
+        const spans = document.querySelectorAll(`span#${menuName}`); 
+        
+        const buttons = ["1", "2", "3", "4", "5"];
 
-        this.setState ({
+        if (buttonValues !== '+') {
 
-            value
+            const otherButtonNumbers = buttons.filter( buttonNumber => buttonNumber !== buttonValues);
+                
+            otherButtonNumbers.map( button => {
 
-        });
-    }
+                const btn = parseInt(button);
+                spans[btn - 1].style.visibility = 'visible';
 
-    increaseValue () {
+            });
 
-        const value = this.state.value + 1;
+            const intButtonValues = parseInt(buttonValues);
 
-        this.setState ({
+            spans[intButtonValues - 1].style.visibility = 'hidden';
+    
+        } else {
 
-            value
+            buttonValues = parseInt(label.innerHTML);
+            buttonValues++;
 
-        });
+            if(buttonValues > 5) {
+
+                buttons.map( button => {
+
+                    const btn = parseInt(button);
+                    spans[btn - 1].style.visibility = 'visible';
+    
+                });
+            }
+
+            // when more than 10, warning message!!!
+
+        }
+        
+        const displayNumber = document.createTextNode(buttonValues);
+
+        if (label.firstChild) label.removeChild(label.firstChild);
+        
+        label.appendChild(displayNumber);
+        
     }
 
     allMenuContents () {
-
-        // console.log('props: ', this.props);
 
         const path = './images/';
 
@@ -170,13 +167,25 @@ class MenuList extends Component {
 
         });
 
-        
-        
         const menuPrices = (item) => {
 
-        //if(!item.name) return <td>Loading.....</td>;
+            
 
-        
+            const buttonDisplay = () =>{
+                
+                const buttons = ["1", "2", "3", "4", "5", "+"];
+
+                return buttons.map( (button) => {
+    
+                    return <span key = { button } onClick = { this.numberOnChange } id = { removeSpace(item.name) } className = "btn btn-primary" >
+                    
+                        { button }
+                    
+                    </span>;
+    
+                });
+                
+            };
 
             return (
              
@@ -200,15 +209,17 @@ class MenuList extends Component {
     
                         </div>
                                 
-                        <div>
-    
-                           <label className = { removeSpace(item.name) } id = "number-input" >
-                                Number of Orders: 
-                            <input type = "number" defaultValue = "1" name = { item.name } 
-                                    min = "1" onChange = { this.numberOnChange.bind(this) } />
+                        <div className = { removeSpace(item.name) } id = "number-input">
+                            <div>
+                                Number of Orders: <label className = { removeSpace(item.name) }>1</label>
+                            </div>
 
-                                    
-                           </label>
+                            <div>
+                                { buttonDisplay() }
+                            </div>
+                            <div>
+                                {/*<span onClick = { this.numberOnChange } className = "btn btn-primary" id = { removeSpace(item.name) }>+</span>*/}  
+                            </div>
                                 
                         </div>
     
@@ -235,7 +246,6 @@ class MenuList extends Component {
             );
     
         }
-
     
         return (
     
@@ -281,7 +291,7 @@ class MenuList extends Component {
 
     render () {
 
-        console.log(this.state.name_price)
+        if(!this.props) return <div/>;
 
         return (
 
@@ -329,14 +339,6 @@ class MenuList extends Component {
 
 
 } 
-
- /*
-
-    
-
-
-
-    */
     
 
 function mapStateToProps ({ menu }) {

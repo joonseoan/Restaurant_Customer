@@ -50,8 +50,14 @@ td.input-checkbox:checked {
 
 }
 
-#number-input{
+#number-input {
+
+    display: none;
+    
+}
+
+span:first-of-type {
 
     visibility: hidden;
-    
+
 }
