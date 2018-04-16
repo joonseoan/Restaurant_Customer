@@ -18,6 +18,7 @@ import reducers from './reducers';
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
 ReactDOM.render(
+    
     <Provider store = { createStoreWithMiddleware(reducers)} >
 
         <BrowserRouter>
@@ -33,4 +34,7 @@ ReactDOM.render(
         </BrowserRouter>
        
     </ Provider>
+
 , document.getElementById('root'));
+
+

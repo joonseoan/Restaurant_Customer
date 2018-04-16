@@ -6,6 +6,8 @@ import _ from 'lodash';
 
 import { Link } from 'react-router-dom';
 
+import Bill from '../components/bill/bill';
+
 
 let name_price = [];
 
@@ -24,17 +26,22 @@ class MenuList extends Component {
         this.state = {
 
             name_price: [],
+            showModal : false
             
         };
 
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+
     }
 
+    /*
     submitValue (event) {
 
         console.log(event)
         event.preventDefault();
 
-    }
+    }*/
 
     menuOnChange(event) {
 
@@ -44,11 +51,17 @@ class MenuList extends Component {
         const value = event.target.value;
         const checked = event.target.checked;
 
+        console.log('name: ', name)
+        const label = document.querySelector(`label.${removeSpace(name)}`);
+
+        let labelValues = parseInt(label.innerHTML); 
+
         const nameValueStatus = { 
             
             name,
             value,
-            checked
+            checked,
+            number : labelValues
         
         };
 
@@ -97,42 +110,43 @@ class MenuList extends Component {
     
     numberOnChange (event) {
 
-        const menuName = event.target.id;
+        const CurrentMenuName = event.target.id;
 
         let buttonValues = event.target.innerHTML;
 
-        const label = document.querySelector(`label.${menuName}`); 
+        const label = document.querySelector(`label.${CurrentMenuName}`);
 
-        const spans = document.querySelectorAll(`span#${menuName}`); 
+        let labelValues = parseInt(label.innerHTML); 
+
+        const spans = document.querySelectorAll(`span#${CurrentMenuName}`); 
         
-        const buttons = ["1", "2", "3", "4", "5"];
+        const buttons = [1, 2, 3, 4, 5];
 
         if (buttonValues !== '+') {
 
-            const otherButtonNumbers = buttons.filter( buttonNumber => buttonNumber !== buttonValues);
-                
-            otherButtonNumbers.map( button => {
+            buttonValues = parseInt(buttonValues);
 
-                const btn = parseInt(button);
-                spans[btn - 1].style.visibility = 'visible';
+            const disPlayButtons = buttons.filter( buttonNumber => buttonNumber !== buttonValues);
+                
+            disPlayButtons.map( button => {
+
+                spans[button - 1].style.visibility = 'visible';
 
             });
 
-            const intButtonValues = parseInt(buttonValues);
-
-            spans[intButtonValues - 1].style.visibility = 'hidden';
+            spans[buttonValues - 1].style.visibility = 'hidden';
     
         } else {
 
-            buttonValues = parseInt(label.innerHTML);
-            buttonValues++;
-
+            labelValues++;
+            
+            buttonValues = labelValues;
+            
             if(buttonValues > 5) {
 
                 buttons.map( button => {
 
-                    const btn = parseInt(button);
-                    spans[btn - 1].style.visibility = 'visible';
+                    spans[button - 1].style.visibility = 'visible';
     
                 });
             }
@@ -146,6 +160,20 @@ class MenuList extends Component {
         if (label.firstChild) label.removeChild(label.firstChild);
         
         label.appendChild(displayNumber);
+
+        
+        name_price.map( (find) => {
+
+            const alias = removeSpace(find.name);
+
+            if (alias === CurrentMenuName) {
+                
+                find.number = buttonValues;
+
+                console.log('find a number of orders: ', find);
+            }
+
+        });
         
     }
 
@@ -169,23 +197,34 @@ class MenuList extends Component {
 
         const menuPrices = (item) => {
 
-            
-
             const buttonDisplay = () =>{
                 
-                const buttons = ["1", "2", "3", "4", "5", "+"];
+                const buttons = [1, 2, 3, 4, 5 ]; // please, test it again.
 
-                return buttons.map( (button) => {
+                const eachButton = buttons.map( (button) => {
     
-                    return <span key = { button } onClick = { this.numberOnChange } id = { removeSpace(item.name) } className = "btn btn-primary" >
+                    return <span key = { button } onClick = { this.numberOnChange.bind(this) } id = { removeSpace(item.name) } className = "btn btn-primary" >
                     
                         { button }
                     
                     </span>;
-    
-                });
                 
-            };
+                });
+
+                return (
+                    
+                    <div>
+                    
+                        { eachButton }
+
+                        <span onClick = { this.numberOnChange.bind(this) } id = { removeSpace(item.name) } className = "btn btn-primary" >+</span>
+                    
+                    </div>
+                    
+                );
+                
+            }
+            
 
             return (
              
@@ -201,7 +240,7 @@ class MenuList extends Component {
                                 <input type = "checkbox" className = "input-checkbox" name = { item.name } 
                                     value = { item.price } onChange = { this.menuOnChange.bind(this) } />
                                 
-                                <p> {item.description} </p>
+                                <p> { item.description } </p>
     
                             </label>
 
@@ -210,16 +249,12 @@ class MenuList extends Component {
                         </div>
                                 
                         <div className = { removeSpace(item.name) } id = "number-input">
+
                             <div>
                                 Number of Orders: <label className = { removeSpace(item.name) }>1</label>
                             </div>
 
-                            <div>
-                                { buttonDisplay() }
-                            </div>
-                            <div>
-                                {/*<span onClick = { this.numberOnChange } className = "btn btn-primary" id = { removeSpace(item.name) }>+</span>*/}  
-                            </div>
+                            { buttonDisplay() }
                                 
                         </div>
     
@@ -289,9 +324,25 @@ class MenuList extends Component {
     
     }
 
+    handleOpenModal() {
+
+       this.setState ({ showModal : true }); 
+       
+    }
+
+    handleCloseModal() {
+
+        this.setState ({ showModal : false });
+    }
+
     render () {
 
+        console.log(this.state.showModal)
+
         if(!this.props) return <div/>;
+
+        //if (this.state.showModal)
+        //return        
 
         return (
 
@@ -325,13 +376,21 @@ class MenuList extends Component {
                             
                         </table>
 
-                        <input type="submit" value="Order" />
-
-                    </form>
-
-                </div>
+                        {/* <input type="submit" value="Order"  onClick = { this.submitValue }/> */}
+                    
+                    </form> 
                     
             </div>
+
+            <div onClick = { this.handleOpenModal } className = "btn btn-primary" >Order</div>
+
+                <Bill  openStatus = { this.state.showModal } menuChecked = { this.state.name_price }>
+
+                    <div onClick = { this.handleCloseModal } > Change Order </div>
+                    
+                </Bill>      
+
+            </div>        
 
     );
 
@@ -339,7 +398,6 @@ class MenuList extends Component {
 
 
 } 
-    
 
 function mapStateToProps ({ menu }) {
 
