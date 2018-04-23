@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -99,8 +98,6 @@ class BranchList extends Component {
 
         if(!this.state.value)
         return (<div>Loading...</div>);
-        
-        console.log('this.state.value', this.state.value)
 
         return (
 

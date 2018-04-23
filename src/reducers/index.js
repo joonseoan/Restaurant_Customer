@@ -5,6 +5,7 @@ import branchLocation from './branch_location';
 import todayWeather from './today_weather';
 import additionalTodayWeather from './additional_today_weather';
 import menu from './menu';
+import guestbooks from './guestbooks';
 
 const reducers = combineReducers({
     
@@ -12,10 +13,9 @@ const reducers = combineReducers({
     branchLocation,
     todayWeather,
     additionalTodayWeather,
-    menu
+    menu,
+    guestbooks
 
 });
-
-//console.log('selectedCityWeather:  ', selectedCityWeather);
 
 export default reducers;

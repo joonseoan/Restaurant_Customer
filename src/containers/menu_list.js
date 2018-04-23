@@ -401,7 +401,7 @@ class MenuList extends Component {
 
 function mapStateToProps ({ menu }) {
 
-    return { menu }
+    return { menu };
 
 }
 
