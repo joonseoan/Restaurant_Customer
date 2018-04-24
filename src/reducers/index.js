@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as guestbookForm } from 'redux-form';
 
 import selectedCityWeather  from './selected_city_weather';
 import branchLocation from './branch_location';
@@ -14,7 +15,8 @@ const reducers = combineReducers({
     todayWeather,
     additionalTodayWeather,
     menu,
-    guestbooks
+    guestbooks,
+    form: guestbookForm
 
 });
 

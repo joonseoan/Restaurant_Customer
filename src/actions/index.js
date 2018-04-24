@@ -10,11 +10,13 @@ import { Open_Weather_Key,
          DarkSky_Weather_Key,
          Gmap_Api_Key } from './keyValue';
 
-import { FETCH_GUESTBOOKS } from './fetch_guestbooks';
+import { FETCH_GUESTBOOKS,
+         CREATE_GUESTBOOK } from './fetch_guestbooks';
 
 const TodayURL = `http://api.openweathermap.org/data/2.5/weather?appid=${Open_Weather_Key}`;
 const FiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?appid=${Open_Weather_Key}`;
 const GoogleURL = 'https://maps.googleapis.com/maps/api/geocode/json?address';
+const guestbookURL = 'https://vast-wave-33154.herokuapp.com';
 
 export function weatherInfo(branch_city) {
 
@@ -84,7 +86,7 @@ export function additionalTodayWeatherInfo (branch_city) {
 
 export function fetchGuesbookLists () {
 
-    const url = 'https://vast-wave-33154.herokuapp.com/guests';
+    const url = `${ guestbookURL }/guests`;
 
     const request = axios.get(url);
 
@@ -97,6 +99,26 @@ export function fetchGuesbookLists () {
 
     });
                         
+}
+
+export function createGuestbook(guestbook, callback) {
+
+    const url = `${ guestbookURL }/guests`;
+
+    const request = axios.post(url, guestbook)
+        .then(() => {
+
+            callback();
+
+        });
+    
+    return ({
+
+        type : CREATE_GUESTBOOK,
+        payload: request
+            
+    });
+
 }
 
 

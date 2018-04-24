@@ -18,8 +18,6 @@ class GuestbookAllPosted extends Component {
  
         console.log('_.map(this.props.guestbook: ', _.map(this.props.guestbook));
 
-        
-
         return _.map(this.props.guestbooks, (guestbook) => {
 
             return (
@@ -40,10 +38,15 @@ class GuestbookAllPosted extends Component {
         return(
 
             <div>
+
                 <div>
                     <Link className = "btn btn-primary" to = "/">
                         Back to main page
                     </Link>
+                    <Link className = "btn btn-primary" to = "/guestbookNewCreated">
+                        Create Your Post 
+                    </Link>
+                    
                 </div>
 
                 <div>
@@ -51,6 +54,7 @@ class GuestbookAllPosted extends Component {
                         { this.renderGuestBooks() }
                     </ul>
                 </div>
+
             </div>
 
 
