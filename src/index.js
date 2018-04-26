@@ -20,7 +20,7 @@ ReactDOM.render(
 
         <BrowserRouter>
 
-            <div>
+            <div className = 'container'>
                 <Switch>
 
                     <Route path = '/description/:id' component = { RecommendationDescriptions } />
