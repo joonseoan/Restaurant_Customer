@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import Bill from '../components/bill/bill';
 
@@ -26,7 +26,8 @@ class MenuList extends Component {
         this.state = {
 
             name_price: [],
-            showModal : false
+            showModal : false,
+            newPage : false
             
         };
 
@@ -35,23 +36,12 @@ class MenuList extends Component {
 
     }
 
-    /*
-    submitValue (event) {
-
-        console.log(event)
-        event.preventDefault();
-
-    }*/
-
     menuOnChange(event) {
-
-       console.log('check.event:', event.target.value)
 
         const name = event.target.name;
         const value = event.target.value;
         const checked = event.target.checked;
 
-        console.log('name: ', name)
         const label = document.querySelector(`label.${removeSpace(name)}`);
 
         let labelValues = parseInt(label.innerHTML); 
@@ -149,9 +139,10 @@ class MenuList extends Component {
                     spans[button - 1].style.visibility = 'visible';
     
                 });
+
             }
 
-            // when more than 10, warning message!!!
+            // when more than 10, warning message!!! (Later on)
 
         }
         
@@ -161,7 +152,6 @@ class MenuList extends Component {
         
         label.appendChild(displayNumber);
 
-        
         name_price.map( (find) => {
 
             const alias = removeSpace(find.name);
@@ -326,7 +316,12 @@ class MenuList extends Component {
 
     handleOpenModal() {
 
-       this.setState ({ showModal : true }); 
+       this.setState ({ 
+
+            showModal : true,
+            newPage : false
+
+        }); 
        
     }
 
@@ -339,10 +334,9 @@ class MenuList extends Component {
 
         console.log(this.state.showModal)
 
-        if(!this.props) return <div/>;
+        if(!this.props) return <div/>;    
 
-        //if (this.state.showModal)
-        //return        
+        if(this.state.newPage) return <Redirect to = 'thankyouAndGuestbook' />;     
 
         return (
 
@@ -376,8 +370,6 @@ class MenuList extends Component {
                             
                         </table>
 
-                        {/* <input type="submit" value="Order"  onClick = { this.submitValue }/> */}
-                    
                     </form> 
                     
             </div>
@@ -387,15 +379,15 @@ class MenuList extends Component {
                 <Bill  openStatus = { this.state.showModal } menuChecked = { this.state.name_price }>
 
                     <div onClick = { this.handleCloseModal } > Change Order </div>
+
                     
                 </Bill>      
 
             </div>        
 
-    );
+        );
 
     }
-
 
 } 
 

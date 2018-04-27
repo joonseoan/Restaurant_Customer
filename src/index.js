@@ -9,6 +9,7 @@ import App from './components/App';
 import GuestbookAllPosted from './guestbooks/guestbook_all_posted';
 import GuestbookNewCreated from './guestbooks/guestbook_new_created';
 import RecommendationDescriptions from './components/current_recommendations/recommendation_descriptions';
+import ThankYouAndGuestbook from './components/Thankyou/Thank_you_and_guestbook';
 
 import reducers from './reducers';
 
@@ -23,9 +24,10 @@ ReactDOM.render(
             <div className = 'container'>
                 <Switch>
 
-                    <Route path = '/description/:id' component = { RecommendationDescriptions } />
-                    <Route path = '/guestbookAllPosted' component = { GuestbookAllPosted } />
-                    <Route path = '/guestbookNewCreated' component = { GuestbookNewCreated } />
+                    <Route exact path = '/thankyouAndGuestbook' component = { ThankYouAndGuestbook }/>
+                    <Route exact path = '/description/:id' component = { RecommendationDescriptions } />
+                    <Route exact path = '/guestbookAllPosted' component = { GuestbookAllPosted } />
+                    <Route exact path = '/guestbookNewCreated' component = { GuestbookNewCreated } />
                     <Route path = '/' component = { App } />
                    
                 </Switch>
