@@ -9,8 +9,6 @@ import { Link, Redirect } from 'react-router-dom';
 import Bill from '../components/bill/bill';
 
 
-let name_price = [];
-
 function removeSpace(name) {
 
     return name.replace(/\s/g, "");
@@ -31,71 +29,55 @@ class MenuList extends Component {
             
         };
 
-        this.handleOpenModal = this.handleOpenModal.bind(this);
-        this.handleCloseModal = this.handleCloseModal.bind(this);
-
     }
 
     menuOnChange(event) {
 
-        const name = event.target.name;
-        const value = event.target.value;
-        const checked = event.target.checked;
+        const { name, value, checked } = event.target;
 
         const label = document.querySelector(`label.${removeSpace(name)}`);
 
-        let labelValues = parseInt(label.innerHTML); 
+        let number = parseInt(label.innerHTML); 
 
-        const nameValueStatus = { 
-            
-            name,
-            value,
-            checked,
-            number : labelValues
-        
-        };
+        let current_name_price = this.state.name_price;
 
-        if (nameValueStatus.checked === false) name_price.map( (menu) =>{
+        if (!checked) { 
 
-            if (menu.name === nameValueStatus.name) {
+            current_name_price.map((menu) => {
 
-                const index = name_price.indexOf(menu);
+            if (menu.name === name) {
 
-                name_price.splice(index, 1);
+                const index = current_name_price.indexOf(menu);
 
-                document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[0]
-                    .style.backgroundColor = '';
-
-                document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[1]
-                    .style.backgroundColor = '';
-
-                document.querySelector(`div.${removeSpace(nameValueStatus.name)}`).style.display = 'none';
+                current_name_price.splice(index, 1);
 
             }
 
-        });
+            });
 
-        if (nameValueStatus.checked === true) {
+        } else {
 
-            name_price = [...name_price, nameValueStatus];
+            current_name_price = [ ...current_name_price, { name, value, checked, number } ];
 
-            //no way to use react??
-            document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[0]
-                .style.backgroundColor = '#FFFF66';
+        }
 
-            document.querySelectorAll(`td.${removeSpace(nameValueStatus.name)}`)[1]
-                .style.backgroundColor = 'yellow';
-            
-            document.querySelector(`div.${removeSpace(nameValueStatus.name)}`).style.display = 'block';
-              
-        } 
-        
         this.setState({  
             
-            name_price
-        
-        }); 
+            name_price: current_name_price
 
+        });
+
+        const color = !checked ? '' : '#FAFAD2';
+
+        //no way to use react??
+        document.querySelectorAll(`td.${removeSpace(name)}`)[0]
+                .style.backgroundColor = color;
+
+        document.querySelectorAll(`td.${removeSpace(name)}`)[1]
+                    .style.backgroundColor = color;
+
+        document.querySelector(`div.${removeSpace(name)}`).style.display = `${!checked ? 'none' : 'block'}`;
+        
     }
     
     numberOnChange (event) {
@@ -147,12 +129,11 @@ class MenuList extends Component {
         }
         
         const displayNumber = document.createTextNode(buttonValues);
-
         if (label.firstChild) label.removeChild(label.firstChild);
         
         label.appendChild(displayNumber);
 
-        name_price.map( (find) => {
+        this.state.name_price.map( (find) => {
 
             const alias = removeSpace(find.name);
 
@@ -160,7 +141,7 @@ class MenuList extends Component {
                 
                 find.number = buttonValues;
 
-                console.log('find a number of orders: ', find);
+                // console.log('find a number of orders: ', find);
             }
 
         });
@@ -215,7 +196,6 @@ class MenuList extends Component {
                 
             }
             
-
             return (
              
                 <td key = { item.name } width = "300" height = "50" className = { removeSpace(item.name) } >
@@ -243,7 +223,6 @@ class MenuList extends Component {
                             <div>
                                 Number of Orders: <label className = { removeSpace(item.name) }>1</label>
                             </div>
-
                             { buttonDisplay() }
                                 
                         </div>
@@ -332,12 +311,11 @@ class MenuList extends Component {
 
     render () {
 
-        console.log(this.state.showModal)
-
         if(!this.props) return <div/>;    
 
-        if(this.state.newPage) return <Redirect to = 'thankyouAndGuestbook' />;     
-
+        if(this.state.newPage) 
+            return <Redirect to = 'thankyouAndGuestbook' menuChecked = { this.state.name_price }/>;     
+        
         return (
 
             <div>
@@ -374,13 +352,12 @@ class MenuList extends Component {
                     
             </div>
 
-            <div onClick = { this.handleOpenModal } className = "btn btn-primary" >Order</div>
+            <div onClick = { this.handleOpenModal.bind(this) } className = "btn btn-primary" >Click to make an order</div>
 
                 <Bill  openStatus = { this.state.showModal } menuChecked = { this.state.name_price }>
 
-                    <div onClick = { this.handleCloseModal } > Change Order </div>
+                    <div onClick = { this.handleCloseModal.bind(this) } > Start over choosing your menu again.</div>
 
-                    
                 </Bill>      
 
             </div>        

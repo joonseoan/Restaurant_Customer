@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import _ from 'lodash';
-import { Link, Switch, Redirect, Route, BrowserRouter} from 'react-router-dom';
+
 import GuestbookNewCreated from '../../guestbooks/guestbook_new_created';
 
 const customStyles = {
@@ -29,23 +29,7 @@ function rounding (number) {
 
 class Bill extends Component {
 
-    constructor(props) {
-
-        super(props);
-
-        this.state = {
-
-            goToNewPage: false
-
-        }
-
-    }
-
     orderList(order) {
-
-        //this.props.number = 2;
-
-        console.log('this.props.menuChecked: ', this.props.menuChecked)
 
         console.log('order: ', order)
 
@@ -101,12 +85,7 @@ class Bill extends Component {
 
     }
 
-    onSubmit(e) {
-
-        console.log('event', e.target.vaue);
-
-        // Without this method, not able to redirect.
-        e.preventDefault();
+    eventClick() {
 
         // will send this data to DB later on.
         const menuOrdered = this.props.menuChecked;
@@ -119,6 +98,39 @@ class Bill extends Component {
     } 
 
     render() {
+
+        console.log(this.props)
+
+        if(!this.props) return <div>Loading...</div>
+
+            const { history } = this.props;
+
+        if(this.props.menuChecked.length === 0) {
+
+            return (
+
+                <Modal isOpen = { this.props.openStatus }>
+
+                <div>
+                    
+                    <div>
+                    
+                        Sorry, customer. You have not chose the menu yet.        
+                    
+                    </div>
+
+                    <div className = 'btn btn-danger'> 
+
+                            { this.props.children }
+
+                    </div>
+
+                </div>
+
+                </Modal>
+            );
+
+        }
 
         return ( 
   
@@ -149,11 +161,11 @@ class Bill extends Component {
 
                         </div>
 
-                    <form onSubmit = { this.onSubmit.bind(this) } >
+                    {/*<form onSubmit = { this.onSubmit.bind(this) } > */}
                         
-                        <input type = 'submit' value = 'Submit Orders' className = "btn btn-primary" /> 
+                        <input type = 'submit' value = 'Submit Orders' className = "btn btn-primary" onClick = { this.eventClick.bind(this)} /> 
                        
-                    </form>
+                    {/*</form> */}
                    
                 </Modal>
 
@@ -166,5 +178,6 @@ class Bill extends Component {
 }
 
 export default Bill;
+
 
 

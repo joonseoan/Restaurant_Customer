@@ -23,10 +23,14 @@ class App extends Component {
             <div>
                 <MenuList />
             </div>
+             {/* Should decide guestbook for guestbooklist*/}
+             
+             {/*
             <div>
                 <GuestbookButton />
             </div>
-
+            */}
+            
             {/*<TodaySpecial/>*/}
             {/*<ThreeDayWeather /> */} 
 
