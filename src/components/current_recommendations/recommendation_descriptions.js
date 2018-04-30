@@ -5,56 +5,101 @@ import _ from 'lodash';
 
 function RecommendationDescriptions (props) {
 
-    if(!props) return <div>Loading....</div>
+    if(!props.g) return <div>Loading....</div>
+
+    const { guestbooks } = props;
         
-         const path = '../images/';
+    const path = '../images/';
 
-         const { name, description, file, price, spicy, carlorie } = props.selectedMenu;
+    const { name, description, file, price, spicy, carlorie } = props.selectedMenu;
 
-         const picList = () =>{
+    const picList = () =>{
 
-            return props.theOthers.map( (pic) => { 
+        return props.theOthers.map( (pic) => { 
 
-                return  <Link to = {`/description/${ pic.name }`} key = { pic.id }>
+            return  <Link key = { pic.id } to = {`/description/${ pic.name }`} >
                 
-                            <img src = { path + pic.file } alt= {pic.name} width = "200" />
+                        <img src = { path + pic.file } alt= {pic.name} width = "200" />
                         
-                        </Link>
+                   </Link>
 
-            });             
+        });             
 
-        }
+    }
 
-        const beverage = () => {
+    const beverage = () => {
 
-            if(spicy) {
+        if(spicy) {
 
-                return <img src = { path + spicy } alt = { name }/>
-            }
-        }
-        
-        return( 
-            <div>
+            return <img src = { path + spicy } alt = { name }/>
     
-                <div>
+        }
+    }
 
-                    <h3>[{ name }] : ${ price }</h3> 
-                    <img src = { path + file } alt = { spicy }/>
+    const foodGuestbooks = (guestbooks) => {
+
+        // console.log('props', props);
+        
+        const guestbookList = _.map(guestbooks);
+
+        return guestbookList.map(guestbook => {
+
+            console.log(guestbook, 'guestbook')
+
+            if(guestbook.food === name && guestbook.like)
+                return (
+
+                   <li key = { guestbook._id } className ='list-group-item'> {guestbook.title} </li>
+                
+                );
+
+        });
+
+    }
+        
+    return( 
+    
+        <div>
+    
+            <div>
+
+                <h3>[{ name }] : ${ price }</h3> 
+                <img src = { path + file } alt = { spicy }/>
+        
                     { beverage() }
-                    <h4>{ description } ({ carlorie } cal)</h4>
+        
+                <h4>{ description } ({ carlorie } cal)</h4>
 
                     {/* should put ingredients*/}
                        
                 </div>
                 
                 <div>
+        
                     { picList() }
+        
                 </div>
 
                 <div>
+
+                    <h2> Customer's recommendation </h2>
+
+                    <ul>
+
+                        { foodGuestbooks(guestbooks) }
+
+                    </ul>
+
+                </div>
+
+                <div>
+        
                     <Link className = "btn btn-primary" to = {'/'} >
+        
                         Back to the main page
+        
                     </Link>
+        
                 </div>
     
             </div>
@@ -62,7 +107,7 @@ function RecommendationDescriptions (props) {
     
 }
 
-function mapStateToProps ({ menu }, ownProps) {
+function mapStateToProps ({ menu, guestbooks }, ownProps) {
 
     let selectedMenu;
     let selectedMenuType;
@@ -87,7 +132,8 @@ function mapStateToProps ({ menu }, ownProps) {
     return { 
         
         selectedMenu,
-        theOthers
+        theOthers,
+        guestbooks
         
     }
 

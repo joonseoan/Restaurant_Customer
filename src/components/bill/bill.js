@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { storeOrders } from '../../actions/index'
 
 import GuestbookNewCreated from '../../guestbooks/guestbook_new_created';
 
@@ -90,6 +92,8 @@ class Bill extends Component {
         // will send this data to DB later on.
         const menuOrdered = this.props.menuChecked;
 
+        this.props.storeOrders(menuOrdered);
+
         // From children object
         this.props.children._self.state.newPage = true;
 
@@ -177,7 +181,7 @@ class Bill extends Component {
 
 }
 
-export default Bill;
+export default connect (null, { storeOrders })(Bill);
 
 
 

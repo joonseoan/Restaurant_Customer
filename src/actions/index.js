@@ -11,7 +11,8 @@ import { Open_Weather_Key,
          Gmap_Api_Key } from './keyValue';
 
 import { FETCH_GUESTBOOKS,
-         CREATE_GUESTBOOK } from './fetch_guestbooks';
+         CREATE_GUESTBOOK,
+         MENU_ORDERED } from './fetch_guestbooks';
 
 const TodayURL = `http://api.openweathermap.org/data/2.5/weather?appid=${Open_Weather_Key}`;
 const FiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?appid=${Open_Weather_Key}`;
@@ -122,3 +123,14 @@ export function createGuestbook(guestbook, callback) {
 }
 
 
+export function storeOrders(orders) {
+
+    console.log(orders, 'orders in action');
+    return {
+
+        type: MENU_ORDERED,
+        payload: orders
+
+    }
+
+}

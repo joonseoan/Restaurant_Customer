@@ -40,21 +40,19 @@ class GuestbookAllPosted extends Component {
             <div>
 
                 <div>
-                    
-                    <Link className = "btn btn-primary" to = "/">
-                        Back to main page
-                    </Link>
 
-                    <Link className = "btn btn-primary" to = "/guestbookNewCreated">
-                        Create Your Post 
-                    </Link>
-
-                </div>
-
-                <div>
                     <ul>
                         { this.renderGuestBooks() }
                     </ul>
+                
+                </div>
+
+                <div>
+                    
+                    <Link className = "btn btn-danger" to = "/">
+                        Back to main page
+                    </Link>
+
                 </div>
 
             </div>
@@ -62,9 +60,7 @@ class GuestbookAllPosted extends Component {
 
         );
     }
-
-
-
+    
 }
 
 function mapStateToProps({ guestbooks }) {

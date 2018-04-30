@@ -61,8 +61,6 @@ class GuestbookNewCreated extends Component {
 
     renderCommentField(field) {
 
-        console.log('renderCommentField field: ', field);
-
         const { meta : { touched, error } } = field;
 
         const className = `form-group ${ touched && error ? 'has-danger' : ''}`;
@@ -93,6 +91,50 @@ class GuestbookNewCreated extends Component {
         );
 
     }
+
+    orderedManuList(fields) {
+
+        let { meta : { touched, error}, options, input } = fields;
+
+        const className = `form-group ${ touched && error ? 'has-danger' : ''}`;
+
+        return(
+
+            <div className = { className }>
+
+            { options.map(option => {
+
+                input.value = option.name;
+
+                return( 
+
+                    <label key = { option.name } >
+
+                        { option.name }
+
+                        <input type = 'radio'
+                    
+                         className = 'form-control'
+                         { ...fields.input }
+                        />
+
+                    </label>
+
+                );
+
+            })  }
+
+            <div className = 'text-help'>
+
+                        { touched ? error : '' }
+
+                </div>
+
+            </div>
+
+        );
+
+    }    
     
     renderLikeDislike(fields) {
 
@@ -174,8 +216,6 @@ class GuestbookNewCreated extends Component {
 
     render() {
 
-        console.log('this.props in Guest', this.props);
-
         const { handleSubmit } = this.props;
 
         return(
@@ -183,6 +223,24 @@ class GuestbookNewCreated extends Component {
             <div>
 
                 <form onSubmit = { handleSubmit(this.onSubmit.bind(this)) }>
+
+                    <div>
+
+                        <label>
+
+                            Select the one you ordred.
+                        
+                        </label>
+
+                        <Field
+
+                            name = 'food'
+                            component = { this.orderedManuList }
+                            options = { this.props.orderedMenu }
+
+                        /> 
+
+                    </div>
 
                     <div>
                         <label>
@@ -286,7 +344,7 @@ class GuestbookNewCreated extends Component {
                     </Field>
                     
 
-                    <Link to = '/guestbookAllPosted' className = 'btn btn-danger'>Cancel</Link>
+                    <Link to = '/' className = 'btn btn-danger'>Cancel</Link>
 
                 </form>
 
@@ -296,6 +354,13 @@ class GuestbookNewCreated extends Component {
         );
 
     }
+
+}
+
+const mapStateToProps = ({ orderedMenu }) => {
+
+        return { orderedMenu };
+
 }
 
 export default reduxForm({
@@ -305,7 +370,7 @@ export default reduxForm({
     // validate
 
 })(
-
-    connect(null, { createGuestbook })(GuestbookNewCreated)
+    
+    connect( mapStateToProps, { createGuestbook })(GuestbookNewCreated)
 
 );

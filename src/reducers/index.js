@@ -7,6 +7,7 @@ import todayWeather from './today_weather';
 import additionalTodayWeather from './additional_today_weather';
 import menu from './menu';
 import guestbooks from './guestbooks';
+import orderedMenu from './menu_ordered';
 
 const reducers = combineReducers({
     
@@ -16,7 +17,8 @@ const reducers = combineReducers({
     additionalTodayWeather,
     menu,
     guestbooks,
-    form: guestbookForm
+    form: guestbookForm,
+    orderedMenu
 
 });
 
