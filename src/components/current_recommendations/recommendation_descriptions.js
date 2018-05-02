@@ -1,25 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-function RecommendationDescriptions (props) {
+import { fetchGuesbookLists } from '../../actions/index';
 
-    if(!props.g) return <div>Loading....</div>
+class RecommendationDescriptions extends Component {
 
-    const { guestbooks } = props;
-        
-    const path = '../images/';
 
-    const { name, description, file, price, spicy, carlorie } = props.selectedMenu;
+    componentDidMount() {
 
-    const picList = () =>{
+        this.props.fetchGuesbookLists();
 
-        return props.theOthers.map( (pic) => { 
+    }
+
+    picList() {
+
+        return this.props.theOthers.map( (pic) => { 
 
             return  <Link key = { pic.id } to = {`/description/${ pic.name }`} >
                 
-                        <img src = { path + pic.file } alt= {pic.name} width = "200" />
+                        <img src = {`../images/${ pic.file }` } alt= {pic.name} width = "200" />
                         
                    </Link>
 
@@ -27,18 +28,20 @@ function RecommendationDescriptions (props) {
 
     }
 
-    const beverage = () => {
+    beverage() {
+
+        const { name, spicy } = this.props.selectedMenu;
 
         if(spicy) {
 
-            return <img src = { path + spicy } alt = { name }/>
+            return <img src = { `../images/${spicy}` } alt = { name }/>
     
         }
     }
 
-    const foodGuestbooks = (guestbooks) => {
+    foodGuestbooks(guestbooks) {
 
-        // console.log('props', props);
+        const { name } = this.props.selectedMenu;
         
         const guestbookList = _.map(guestbooks);
 
@@ -56,55 +59,68 @@ function RecommendationDescriptions (props) {
         });
 
     }
-        
-    return( 
-    
-        <div>
-    
+
+    render() {
+
+        if(!this.props.guestbooks) return <div>Loading....</div>
+
+        const { guestbooks } = this.props;
+
+        const path = '../images/';
+
+        const { name, description, file, price, spicy, carlorie } = this.props.selectedMenu;
+
+        return (
+
             <div>
-
-                <h3>[{ name }] : ${ price }</h3> 
-                <img src = { path + file } alt = { spicy }/>
         
-                    { beverage() }
-        
-                <h4>{ description } ({ carlorie } cal)</h4>
-
-                    {/* should put ingredients*/}
-                       
-                </div>
-                
-                <div>
-        
-                    { picList() }
-        
-                </div>
-
                 <div>
 
-                    <h2> Customer's recommendation </h2>
+                    <h3>[{ name }] : ${ price }</h3> 
+                    <img src = { path + file } alt = { spicy }/>
+            
+                        { this.beverage() }
+            
+                    <h4>{ description } ({ carlorie } cal)</h4>
 
-                    <ul>
+                        {/* should put ingredients*/}
+                           
+                    </div>
+                    
+                    <div>
+            
+                        { this.picList() }
+            
+                    </div>
 
-                        { foodGuestbooks(guestbooks) }
+                    <div>
 
-                    </ul>
+                        <h2> Customer's recommendation </h2>
 
+                        <ul>
+
+                            { this.foodGuestbooks(guestbooks) }
+
+                        </ul>
+
+                    </div>
+
+                    <div>
+            
+                        <Link className = "btn btn-primary" to = {'/'} >
+            
+                            Back to the main page
+            
+                        </Link>
+            
+                    </div>
+        
                 </div>
 
-                <div>
-        
-                    <Link className = "btn btn-primary" to = {'/'} >
-        
-                        Back to the main page
-        
-                    </Link>
-        
-                </div>
-    
-            </div>
-        );
-    
+            );
+
+    }
+
 }
 
 function mapStateToProps ({ menu, guestbooks }, ownProps) {
@@ -139,4 +155,4 @@ function mapStateToProps ({ menu, guestbooks }, ownProps) {
 
 }
 
-export default connect(mapStateToProps)(RecommendationDescriptions);
+export default connect(mapStateToProps, { fetchGuesbookLists })(RecommendationDescriptions);

@@ -25,8 +25,7 @@ class GuestbookNewCreated extends Component {
     // field values are delivered in a defining order down below.
     renderInputField(fields) {
 
-        // console.log('fields: ', fields);
-        // console.log('...fields.input; ', fields.input);
+        console.log(fields)
 
         const { meta : { touched, error }} = fields;
 
@@ -38,11 +37,48 @@ class GuestbookNewCreated extends Component {
 
                 <label>
 
-                    { fields.showTitle }
+                    { fields.showTitle }{ fields.input.name === 'telephone' ? '' : '(Required)' }
 
                     <input type = 'text'
                            className = 'form-control'
                            { ...fields.input } // each property only
+
+                    />
+
+                </label>
+
+                <div className = 'text-help'>
+
+                    { touched ? error : '' }
+
+                </div>
+
+            </div>
+
+        );
+
+    }
+
+    renderInputEmail(field) {
+
+        console.log(field)
+
+        const { meta : { touched, error }} = field;
+
+        const className = `form-group ${ touched && error ? 'has-danger' : ''}`;
+
+        return (
+
+            <div className = { className }>
+
+                <label>
+
+                    { field.showTitle }(Required)
+
+                    <input type = 'email'
+                           className = 'form-control'
+                           { ...field.input } // each property only
+                           placeholder = 'Example: example@example.com'
                     />
 
                 </label>
@@ -70,6 +106,8 @@ class GuestbookNewCreated extends Component {
             <div className = { className }>
 
                 <label>
+
+                    (Required)
 
                     <textarea
                         className = 'form-control'
@@ -113,9 +151,9 @@ class GuestbookNewCreated extends Component {
                         { option.name }
 
                         <input type = 'radio'
-                    
                          className = 'form-control'
                          { ...fields.input }
+                        
                         />
 
                     </label>
@@ -153,7 +191,6 @@ class GuestbookNewCreated extends Component {
             <div className = { className }>
 
                 <input type = 'radio'
-
                     className = 'form-control'
                     { ...fields.input } // each property only
                     
@@ -217,7 +254,7 @@ class GuestbookNewCreated extends Component {
     render() {
 
         const { handleSubmit } = this.props;
-
+        // console.log('handleSubmit: ', handleSubmit);
         return(
 
             <div>
@@ -228,7 +265,7 @@ class GuestbookNewCreated extends Component {
 
                         <label>
 
-                            Select the one you ordred.
+                            Select the one you ordred(Required)
                         
                         </label>
 
@@ -243,36 +280,42 @@ class GuestbookNewCreated extends Component {
                     </div>
 
                     <div>
-                        <label>
 
-                            I like my order.
+                        (Required)
 
-                            <Field
+                        <div>
+                            <label>
 
-                                name = 'likeDislike'
-                                component = { this.renderLikeDislike }
-                                options = 'like'
-                                
-                            />
+                                I like my order.
 
-                        </label>
+                                <Field
 
-                        <label>
+                                    name = 'likeDislike'
+                                    component = { this.renderLikeDislike }
+                                    options = 'like'
+                                    
+                                />
 
-                            I am not satisfied with my order.
+                            </label>
 
-                            <Field
+                            <label>
 
-                                name = 'likeDislike'
-                                component = { this.renderLikeDislike }
-                                options = 'dislike'
+                                I am not satisfied with my order.
 
-                            />
+                                <Field
 
-                        </label>
+                                    name = 'likeDislike'
+                                    component = { this.renderLikeDislike }
+                                    options = 'dislike'
+
+                                />
+
+                            </label>
+
+                        </div>
 
                     </div>
-
+                    
                     <Field
 
                         name = 'title' // inside of input
@@ -288,7 +331,7 @@ class GuestbookNewCreated extends Component {
 
                     <Field
                         name = 'email'
-                        component = { this.renderInputField }
+                        component = { this.renderInputEmail }
                         showTitle = 'Your Email'
                     />
 
@@ -357,6 +400,81 @@ class GuestbookNewCreated extends Component {
 
 }
 
+function validate(values) {
+
+    console.log(values, 'values');
+
+    const err = {};
+
+    if(!values.likeDislike) {
+
+        err.likeDislike = 'Please enter your preference.';
+
+    }
+
+    if(!values.food) {
+
+        err.food = 'Please select a food you ordered.'
+
+    }
+
+    if(!values.title) {
+
+        err.title = 'Please enter title here.';
+
+    }
+
+    if(!values.comments) {
+
+        err.comments = 'Please enter title here.';
+
+    }
+
+    if(!values.email) {
+
+        err.email = 'Please enter your email. It must be an email format.'
+
+    } else {
+
+        const emailPattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
+    
+        if(!emailPattern.test(values.email)) {
+
+            err.email = 'You enterned a wrong email. Please, enter again.';
+        
+        }
+
+    }
+
+    if(!values.password) {
+
+        err.password = 'Please enter your password. It must be more than 8 letters.'
+
+    } else {
+
+        if(values.password.length < 8) {
+
+            err.password = 'Your password must be more than 8 letters.'
+     
+        }
+
+    }
+
+    if(values.telephone) {
+
+        const telephonePattern = /^\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}$/; 
+        
+        if(!telephonePattern.test(values.telephone)) {
+
+            err.telephone = 'You entered a wrong telephone number. Please, enter again.'
+        }
+
+    }   
+
+    return err;
+
+}
+
 const mapStateToProps = ({ orderedMenu }) => {
 
         return { orderedMenu };
@@ -366,8 +484,8 @@ const mapStateToProps = ({ orderedMenu }) => {
 export default reduxForm({
 
     // naming the form of this component
-    form: 'CreateNewGuestbook'
-    // validate
+    form: 'CreateNewGuestbook',
+    validate
 
 })(
     
