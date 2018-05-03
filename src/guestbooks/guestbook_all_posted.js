@@ -7,7 +7,6 @@ import { fetchGuesbookLists } from '../actions/index';
 
 class GuestbookAllPosted extends Component {
 
-
     componentDidMount() {
 
         this.props.fetchGuesbookLists();
@@ -16,18 +15,40 @@ class GuestbookAllPosted extends Component {
 
     renderGuestBooks() {
  
-        console.log('_.map(this.props.guestbook: ', _.map(this.props.guestbook));
+        let dislikeEvaluation = [];
 
-        return _.map(this.props.guestbooks, (guestbook) => {
+        let countNumber = 1;
 
-            return (
-             
-                <li key = { guestbook._id } className ='list-group-item'> {guestbook.title} </li>
-                
-            );
+        const guestbooks = _.map(this.props.guestbooks, guestbook => guestbook);
+
+        return ( guestbooks.reverse().map((guestbook) => {
             
-        });
+            if(guestbook && guestbook.like && countNumber < 11) {
 
+                return (
+
+                <div key = { guestbook._id }>
+
+                    <div> { countNumber++ }. Customer: { guestbook.email.substring(0, 3) }xxx@Owl Korean Restaurant at { guestbook.visitedAt }</div>
+
+                    <Link to = {`/guestbookPosted/${guestbook._id}`} >    
+                     
+                        <li className ='list-group-item'> {guestbook.title} </li>
+
+                    </Link>
+    
+                </div>
+                
+                );       
+            
+            } else {
+
+                dislikeEvaluation.push(guestbook);
+                
+                return;
+            }
+                    
+        }));
 
     }
 
@@ -64,6 +85,8 @@ class GuestbookAllPosted extends Component {
 }
 
 function mapStateToProps({ guestbooks }) {
+
+    console.log('guestbooks: ', guestbooks);
 
     return ({ guestbooks });
 

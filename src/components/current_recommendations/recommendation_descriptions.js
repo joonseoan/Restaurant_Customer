@@ -45,16 +45,34 @@ class RecommendationDescriptions extends Component {
         
         const guestbookList = _.map(guestbooks);
 
-        return guestbookList.map(guestbook => {
+        let countNumber = 1;
+
+        return guestbookList.reverse().map(guestbook => {
 
             console.log(guestbook, 'guestbook')
+            
+            console.log('countNumber: ', countNumber);
 
-            if(guestbook.food === name && guestbook.like)
+            if(guestbook.food === name && guestbook.like && countNumber < 5) {
+
                 return (
 
-                   <li key = { guestbook._id } className ='list-group-item'> {guestbook.title} </li>
-                
+                    <div key = { guestbook._id }>
+
+                        <h3>{ countNumber++ }. { guestbook.title }</h3>
+                        <h4>Customer comments:</h4>
+                        <p>{ guestbook.comments }</p>
+                        <p>I am here at { guestbook.visitedAt}</p>                       
+
+                    </div>
+
                 );
+
+            } else {
+
+                return;
+
+            }
 
         });
 
@@ -125,6 +143,8 @@ class RecommendationDescriptions extends Component {
 
 function mapStateToProps ({ menu, guestbooks }, ownProps) {
 
+    console.log('ownProps in description:', ownProps);
+
     let selectedMenu;
     let selectedMenuType;
     
@@ -145,6 +165,7 @@ function mapStateToProps ({ menu, guestbooks }, ownProps) {
 
     const theOthers = selectedMenuType.filter(item => item !== selectedMenu);
     
+
     return { 
         
         selectedMenu,
