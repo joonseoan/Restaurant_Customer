@@ -2,6 +2,11 @@
   "name": "customer_app",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/guests/login": {
+      "target": "http://localhost:3006"
+    }
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "dark-sky-api": "^0.6.21",

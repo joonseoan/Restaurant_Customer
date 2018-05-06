@@ -61,3 +61,12 @@ span:first-of-type {
     visibility: hidden;
 
 }
+
+div.center {
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+
+}

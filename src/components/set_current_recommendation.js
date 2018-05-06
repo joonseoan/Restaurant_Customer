@@ -3,10 +3,12 @@ import _ from 'lodash';
 
 import RecommendedMenu from './recommended_menu';
 
-const weatherCategories = [ 'Clear', 'Cloud', 'Drizzle', 'Mist', 'Rain', 'Snow', 'Haze' ];
+const weatherCategories = [ 'Clear', 'Cloud', 'Drizzle', 'Mist', 'Rain', 'Snow', 'Haze', 'Thunderstorm' ];
 
 function regexFilter(weather) {
     
+    console.log('weather:', weather);
+
     let result;
     weatherCategories.map( (data) => {
 

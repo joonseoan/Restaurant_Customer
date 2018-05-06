@@ -71,8 +71,17 @@ class GuestbookAllPosted extends Component {
                 <div>
                     
                     <Link className = "btn btn-danger" to = "/">
+                    
                         Back to main page
+                    
                     </Link>
+
+                    <Link to = '/emailPasswordInput' className = 'btn btn-primary' >
+
+                        Edit or Delete your post
+
+                    </Link>
+
 
                 </div>
 

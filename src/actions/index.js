@@ -14,7 +14,8 @@ import { FETCH_GUESTBOOKS,
          CREATE_GUESTBOOK,
          MENU_ORDERED,
          FETCH_GUESTBOOK,
-         DELETE_GUESTBOOK } from './fetch_guestbooks';
+         DELETE_GUESTBOOK,
+         FETCH_USER_GUESTBOOK } from './fetch_guestbooks';
 
 const TodayURL = `http://api.openweathermap.org/data/2.5/weather?appid=${Open_Weather_Key}`;
 const FiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?appid=${Open_Weather_Key}`;
@@ -106,6 +107,8 @@ export function fetchGuesbookLists() {
 
 export function createGuestbook(guestbook, callback) {
 
+    console.log(guestbook);
+
     const url = `${ guestbookURL }/guests`;
 
     const request = axios.post(url, guestbook)
@@ -146,6 +149,28 @@ export function fetchGuestbook(id) {
     return ({
 
         type : FETCH_GUESTBOOK,
+        payload: request
+            
+    });
+
+}
+
+export function fetchUserGuestbook(loginInfo, callback) {
+
+    const url = `${ guestbookURL }/guests/login`;
+
+    const request = axios.post(url, loginInfo)
+        .then(() => {
+
+             callback();
+
+        });
+
+    console.log('request: ', request);
+
+    return ({
+        
+        type : FETCH_USER_GUESTBOOK,
         payload: request
             
     });

@@ -5,7 +5,6 @@ import BranchList from '../containers/branch_list';
 // import TodaySpecial from './today_special';
 import RecommendationMenu from '../containers/recommendation_menu';
 import MenuList from '../containers/menu_list';
-import GuestbookButton from '../guestbooks/guestbook_button';
 
 class App extends Component {
 

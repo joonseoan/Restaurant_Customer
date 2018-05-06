@@ -16,7 +16,7 @@ class GuestbookNewCreated extends Component {
 
         this.state = {
 
-            visibility: "hidden"
+            visibility: 'hidden'
 
         }
 
@@ -39,8 +39,16 @@ class GuestbookNewCreated extends Component {
 
                     { fields.showTitle }{ fields.input.name === 'telephone' ? '' : '(Required)' }
 
-                    <input type = 'text'
+                    <input type = { 
+
+                                    fields.input.name === 'password' || 
+                                    fields.input.name === 'password2' ?
+                                    'password' : 'text'
+        
+                                  }
+
                            className = 'form-control'
+
                            { ...fields.input } // each property only
 
                     />
@@ -246,8 +254,8 @@ class GuestbookNewCreated extends Component {
 
     inputClick(event){
         
-        event.target.checked === true ? this.setState({ visibility: "visible" })
-         : this.setState({ visibility: "hidden"})
+        event.target.checked === true ? this.setState({ visibility: 'visible' })
+         : this.setState({ visibility: 'hidden'})
 
     }
 
@@ -336,11 +344,20 @@ class GuestbookNewCreated extends Component {
                     />
 
                     <Field
+                    
                         name = 'password'
                         component = { this.renderInputField }
                         showTitle = 'Your Password'
+                    
                     />
 
+                    <Field
+                    
+                        name = 'password2'
+                        component = { this.renderInputField }
+                        showTitle = 'Confirm Your Password'
+                    
+                    />
                     <label>
 
                         I don't like this restaurant's way of service.
@@ -363,10 +380,9 @@ class GuestbookNewCreated extends Component {
                         
                          <Field
                             name = 'servComments'
-                            component = 'input'
-                            type = 'text'
+                            component = { this.renderInputField }
                             placeholder = "Please detail your complaints here."
-                            width = '100'
+                        
                         />
 
                         </label>
@@ -448,18 +464,32 @@ function validate(values) {
 
     if(!values.password) {
 
-        err.password = 'Please enter your password. It must be more than 8 letters.'
-
+        err.password = 'Please enter your password. It must be more than 8 letters.';
+        
     } else {
 
         if(values.password.length < 8) {
 
-            err.password = 'Your password must be more than 8 letters.'
-     
+            err.password = 'Your password must be more than 8 letters.';
+
         }
 
     }
 
+    if (!values.password2) {
+
+         err.password2 = 'Please enter same password as above to confirm.';
+
+    } else {
+
+        if(values.password !== values.password2) {
+
+            err.password2 = 'Your password must be same as above with 8 letters.';
+
+        }
+
+    }
+   
     if(values.telephone) {
 
         const telephonePattern = /^\(?[0-9]{3}\)?-?[0-9]{3}-?[0-9]{4}$/; 
