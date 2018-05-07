@@ -15,7 +15,8 @@ import { FETCH_GUESTBOOKS,
          MENU_ORDERED,
          FETCH_GUESTBOOK,
          DELETE_GUESTBOOK,
-         FETCH_USER_GUESTBOOK } from './fetch_guestbooks';
+         USER_LOGIN,
+         FETCH_LOGIN_GUESTBOOK } from './fetch_guestbooks';
 
 const TodayURL = `http://api.openweathermap.org/data/2.5/weather?appid=${Open_Weather_Key}`;
 const FiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?appid=${Open_Weather_Key}`;
@@ -92,9 +93,9 @@ export function fetchGuesbookLists() {
 
     const url = `${ guestbookURL }/guests`;
 
-    const request = axios.get(url);
+    // const url = 'http://localhost:3000/guests';
 
-    console.log('request of fetchGuestbookLists: ', request);
+    const request = axios.get(url);
 
     return ({
 
@@ -107,9 +108,9 @@ export function fetchGuesbookLists() {
 
 export function createGuestbook(guestbook, callback) {
 
-    console.log(guestbook);
-
     const url = `${ guestbookURL }/guests`;
+
+    // const url = 'http://localhost:3000/guests';
 
     const request = axios.post(url, guestbook)
         .then(() => {
@@ -129,7 +130,6 @@ export function createGuestbook(guestbook, callback) {
 
 export function storeOrders(orders) {
 
-    console.log(orders, 'orders in action');
     return {
 
         type: MENU_ORDERED,
@@ -142,9 +142,10 @@ export function storeOrders(orders) {
 export function fetchGuestbook(id) {
 
     const url = `${ guestbookURL }/guests/${ id }`;
+    
+    // const url = `http://localhost:3000/guests/${id}`;
 
     const request = axios.get(url);
-    console.log('request: ', request);
 
     return ({
 
@@ -155,24 +156,40 @@ export function fetchGuestbook(id) {
 
 }
 
-export function fetchUserGuestbook(loginInfo, callback) {
+export function userGuestbookLogin(loginInfo, callback) {
 
     const url = `${ guestbookURL }/guests/login`;
+    
+    // const url = 'http://localhost:3000/guests/login';
 
-    const request = axios.post(url, loginInfo)
-        .then(() => {
+    return ({
 
-             callback();
+        type : USER_LOGIN,
+        payload: axios.post(url, loginInfo).then(() => {
 
-        });
+               callback();
+
+         })
+
+    }); 
+        
+}
+
+export function fetchLoginUserGuestbooks() {
+
+    const url = `${ guestbookURL }/loginGuestbooks`;
+
+    // const url = 'http://localhost:3000/loginGuestbooks';
+
+    const request = axios.get(url);
 
     console.log('request: ', request);
 
     return ({
-        
-        type : FETCH_USER_GUESTBOOK,
-        payload: request
-            
-    });
 
+        type: FETCH_LOGIN_GUESTBOOK,
+        payload: request 
+
+    });
+                        
 }

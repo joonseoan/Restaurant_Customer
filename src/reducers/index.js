@@ -8,6 +8,8 @@ import additionalTodayWeather from './additional_today_weather';
 import menu from './menu';
 import guestbooks from './guestbooks';
 import orderedMenu from './menu_ordered';
+import login from './user_login';
+import loginUserGuestbook from './login_user_guestbooks';
 
 const reducers = combineReducers({
     
@@ -18,7 +20,9 @@ const reducers = combineReducers({
     menu,
     guestbooks,
     form: guestbookForm,
-    orderedMenu
+    orderedMenu,
+    auth : login,
+    loginUserGuestbook	
 
 });
 

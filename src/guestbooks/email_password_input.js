@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-import { fetchGuesbookLists, fetchUserGuestbook } from '../actions/index';
+import { fetchGuesbookLists, userGuestbookLogin, fetchLoginUserGuestbooks } from '../actions/index';
 
 class EmailPasswordInput extends Component {
 
@@ -15,8 +15,7 @@ class EmailPasswordInput extends Component {
 		this.state = {
 
 			message: null,
-			loginsucess: null,
-			loginfail: null
+			loginsucess: null
 
 		}
 
@@ -27,6 +26,23 @@ class EmailPasswordInput extends Component {
 		this.props.fetchGuesbookLists();
 
 	}
+
+	componentWillReceiveProps(nextProps) {
+
+		const { auth } = nextProps;
+
+		if (auth && auth !== true) {
+
+			const strAuth = auth.toString();
+	        const patt = /400/ig;
+
+	        const verification = strAuth.match(patt);
+
+	        if (verification) this.setState({ message : 'You enterned a wrong password.'});
+
+		}
+
+    }
 
 	renderInputField(fields) {
 
@@ -63,6 +79,44 @@ class EmailPasswordInput extends Component {
 
 	}
 
+	userGuestbookPosted() {
+
+		const { loginUserGuestbook } = this.props;
+
+		let countNumber = 1;
+
+		if(loginUserGuestbook) {
+
+			console.log('loginUserGuestbook', loginUserGuestbook);
+
+			return loginUserGuestbook.reverse().map(post => {
+
+				return (
+
+				<div key = { post._id } >
+
+					<div> { countNumber++ }. Customer: { post.email.substring(0, 3) }xxx@Owl Korean Restaurant at { post.visitedAt }</div>
+
+					<Link to = {`/guestbookPosted/${post._id}`} >
+
+						<li className ='list-group-item'>
+
+							{ post.title }
+
+						</li>
+
+					</Link>
+
+				</div>
+
+				);
+
+			});
+
+		}
+
+	}
+
 	onSubmit(values) {
 
 		let emailVerification = false;
@@ -75,11 +129,11 @@ class EmailPasswordInput extends Component {
 
 				emailVerification = true;
 
-				this.setState({ message: null});
+				this.setState({ message: null });
 				
 			} else {
 
-				this.setState({ message: 'You entered a wrong email.' });
+				this.setState({ message: this.props.errMsg });
 
 			}
 
@@ -87,25 +141,42 @@ class EmailPasswordInput extends Component {
 
 		if(emailVerification) {
 
-			this.props.fetchUserGuestbook(values, () => {
+			this.props.userGuestbookLogin(values, () => {
 
-					this.setState({ 
+				this.setState({ 
 
-						loginsucess: true,
-						loginfail: false
+					loginsucess: true
 
-					});
+				});
+				
+			}).then(() => {
+
+				this.props.fetchLoginUserGuestbooks();
 
 			});
 
-		}
+		} 
 
 	}
 
 	render() {
 
-		// console.log(this.props);
-		const { handleSubmit } = this.props;		
+		console.log(this.props);
+		const { handleSubmit } = this.props;
+
+		if (this.state.loginsucess && this.state.message !== this.props.errMsg) {
+
+			return (
+
+				<div>
+
+					<ul>{ this.userGuestbookPosted() }</ul>		
+				
+				</div>
+
+			);
+
+		}
 
 		return (
 
@@ -156,8 +227,6 @@ class EmailPasswordInput extends Component {
 
 					<div> { this.state.message } </div>
 
-
-
 					<Field
                         name = 'submit'
                         component = 'button'
@@ -166,20 +235,14 @@ class EmailPasswordInput extends Component {
                     >Submit
                     </Field>
                     
-
                     <Link to = '/' className = 'btn btn-danger'>Cancel</Link>
 
-
 				</form>
-
-
-
 
 			</div>
 
 		);
 	}
-
 
 }
 
@@ -228,9 +291,18 @@ function validate(values) {
 
 }*/
 
-function mapStateToProps({ guestbooks }) {
+function mapStateToProps({ guestbooks, auth, loginUserGuestbook }) {
 
-	return { guestbooks };
+	console.log('loginUserGuestbook ', loginUserGuestbook);
+
+	return { 
+
+		guestbooks,
+		auth,
+		loginUserGuestbook,
+		errMsg : 'You enterd a wrong email.'
+
+	};
 
 }
 
@@ -242,6 +314,6 @@ export default reduxForm({
 
 })(
     
-    connect(mapStateToProps, { fetchGuesbookLists, fetchUserGuestbook })(EmailPasswordInput)
+    connect(mapStateToProps, { fetchGuesbookLists, userGuestbookLogin, fetchLoginUserGuestbooks })(EmailPasswordInput)
 
 );
