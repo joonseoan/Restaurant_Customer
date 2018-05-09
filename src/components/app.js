@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import BranchList from '../containers/branch_list';
 // import TodayWeather from '../containers/today_weather';
 // import ThreeDayWeather from '../containers/three_day_weather';
@@ -22,6 +24,12 @@ class App extends Component {
             <div>
                 <MenuList />
             </div>
+            <Link to = '/guestbookAllPosted' className = 'btn btn-primary' >
+
+                    Feel free to find guest's recommendation!
+
+            </Link>
+
              {/* Should decide guestbook for guestbooklist*/}
              
              {/*

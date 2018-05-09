@@ -193,3 +193,21 @@ export function fetchLoginUserGuestbooks() {
     });
                         
 }
+
+export function deleteLoginUserGuestbook(id, callback) {
+
+    const request = axios.delete(`${ guestbookURL }/guests/${id}`)
+        .then(() => {
+
+            callback();
+
+        });
+
+    return {
+
+        type: DELETE_GUESTBOOK,
+        payload: id
+
+    }
+
+}

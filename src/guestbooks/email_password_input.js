@@ -97,7 +97,8 @@ class EmailPasswordInput extends Component {
 
 					<div> { countNumber++ }. Customer: { post.email.substring(0, 3) }xxx@Owl Korean Restaurant at { post.visitedAt }</div>
 
-					<Link to = {`/guestbookPosted/${post._id}`} >
+					{/* In order to get props into Link here, define "state" */}
+					<Link to = {{ pathname : `/guestbookPosted/${post._id}`, state : this.props.history.location.pathname }} >
 
 						<li className ='list-group-item'>
 
@@ -129,12 +130,6 @@ class EmailPasswordInput extends Component {
 
 				emailVerification = true;
 
-				this.setState({ message: null });
-				
-			} else {
-
-				this.setState({ message: this.props.errMsg });
-
 			}
 
 		});
@@ -145,6 +140,7 @@ class EmailPasswordInput extends Component {
 
 				this.setState({ 
 
+					message: 'You successfully logged in!!!',
 					loginsucess: true
 
 				});
@@ -155,6 +151,10 @@ class EmailPasswordInput extends Component {
 
 			});
 
+		} else {
+
+			this.setState({ message: this.props.errMsg });
+
 		} 
 
 	}
@@ -163,15 +163,18 @@ class EmailPasswordInput extends Component {
 
 		console.log(this.props);
 		const { handleSubmit } = this.props;
+		const { state } = this.props.history.location;
 
-		if (this.state.loginsucess && this.state.message !== this.props.errMsg) {
+		console.log('state: ', state)
+
+		if ((this.state.loginsucess && this.state.message !== this.props.errMsg) || state === 'false') {
 
 			return (
 
 				<div>
 
 					<ul>{ this.userGuestbookPosted() }</ul>		
-				
+					
 				</div>
 
 			);
@@ -246,7 +249,6 @@ class EmailPasswordInput extends Component {
 
 }
 
-
 function validate(values) {
 
 	let err = {};
@@ -286,9 +288,7 @@ function validate(values) {
 }
 
 /*const mapStateToProps = ({ orderedMenu }) => {
-
         return { orderedMenu };
-
 }*/
 
 function mapStateToProps({ guestbooks, auth, loginUserGuestbook }) {
