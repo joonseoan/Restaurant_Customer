@@ -24,6 +24,7 @@ class EmailPasswordInput extends Component {
 	componentDidMount() {
 
 		this.props.fetchGuesbookLists();
+		this.props.fetchLoginUserGuestbooks();
 
 	}
 
@@ -173,10 +174,16 @@ class EmailPasswordInput extends Component {
 
 				<div>
 
-					<ul>{ this.userGuestbookPosted() }</ul>		
-					
-				</div>
+					<div>
 
+						<ul>{ this.userGuestbookPosted() }</ul>		
+						
+					</div>
+
+					<Link to = '/' className = 'btn btn-danger'>Logout</Link>
+					<Link to = '/guestbookAllPosted' className = 'btn btn-primary'>Guestbook Lists</Link>
+
+				</div>
 			);
 
 		}

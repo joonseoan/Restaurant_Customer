@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { fetchGuestbook,
 		 fetchGuesbookLists,
-		 deleteLoginUserGuestbook } from '../actions/index';
+		 deleteLoginUserGuestbook,
+		 fetchLoginUserGuestbooks } from '../actions/index';
 
 class GuestbookPosted extends Component {
 
@@ -39,14 +40,14 @@ class GuestbookPosted extends Component {
 
 		return (
 
-			<div 
-				onClick = { this.deletePost.bind(this) }
-				className = 'btn btn-danger'
-			>
+				<div 
+					onClick = { this.deletePost.bind(this) }
+					className = 'btn btn-danger'
+				>
 
-				Delete this post
+					Delete this post
 
-			</div>
+				</div>
 
 		);
 
@@ -56,9 +57,9 @@ class GuestbookPosted extends Component {
 
 		const { _id } = this.props.guestbook;
 
-		deleteLoginUserGuestbook(_id, () => {
+		this.props.deleteLoginUserGuestbook(_id, () => {
 
-			this.props.history.push('/emailPasswordInput');
+			this.props.history.push({ pathname: '/emailPasswordInput', state: 'false' });
 
 		});
 
@@ -113,6 +114,9 @@ export default connect(mapStateToProps, {
 
 	fetchGuestbook,
 	fetchGuesbookLists,
-	deleteLoginUserGuestbook }
+	deleteLoginUserGuestbook,
+	fetchLoginUserGuestbooks
+
+	}
 
 )(GuestbookPosted);
