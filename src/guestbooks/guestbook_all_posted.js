@@ -29,7 +29,8 @@ class GuestbookAllPosted extends Component {
 
                 <div key = { guestbook._id }>
 
-                    <div> { countNumber++ }. Customer: { guestbook.email.substring(0, 3) }xxx@Owl Korean Restaurant at { guestbook.visitedAt }</div>
+                    <div> { countNumber++ }. Customer: { guestbook.email.substring(0, 3) }xxx@Owl Korean Restaurant in {guestbook.city}</div>
+                    <div><i>{ guestbook.visitedAt }</i></div>
 
                     <Link to = {`/guestbookPosted/${guestbook._id}`} >    
                      
@@ -61,6 +62,13 @@ class GuestbookAllPosted extends Component {
             <div>
 
                 <div>
+                    
+                    <h1><center>Customer's best recommendations</center></h1>
+                    <h3><center>(Please, click on the list)</center></h3>
+
+                </div>
+
+                <div>
 
                     <ul>
                         { this.renderGuestBooks() }
@@ -78,7 +86,7 @@ class GuestbookAllPosted extends Component {
 
                     <Link to = '/emailPasswordInput' className = 'btn btn-primary' >
 
-                        Edit or Delete your post
+                        Delete your post
 
                     </Link>
 

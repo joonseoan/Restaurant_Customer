@@ -102,6 +102,7 @@ class BranchList extends Component {
         return (
 
             <div>
+
                 <div>
                     
                     <Select
@@ -111,6 +112,12 @@ class BranchList extends Component {
                         onChange = { this.onInputChange }
                         
                     />
+
+                </div>
+
+                <div>
+                            
+                        <h1><center>Welcome to Korean Restaurant in {`${this.state.value}`}</center></h1>
 
                 </div>
 

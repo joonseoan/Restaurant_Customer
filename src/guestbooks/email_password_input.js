@@ -86,6 +86,20 @@ class EmailPasswordInput extends Component {
 
 		let countNumber = 1;
 
+		if(!loginUserGuestbook || loginUserGuestbook.length === 0) {
+
+			return (
+
+				<div>
+				
+					<h1>All of your postings are deleted.</h1>
+					<h2>Thank you for joining the recommendation survey</h2>
+
+				</div>
+			);
+
+		}
+
 		if(loginUserGuestbook) {
 
 			console.log('loginUserGuestbook', loginUserGuestbook);
@@ -173,6 +187,16 @@ class EmailPasswordInput extends Component {
 			return (
 
 				<div>
+
+					<div>
+
+						<center>
+
+							<h1>{'<Your recommendation lists>'}</h1>
+						
+						</center>
+
+					</div>
 
 					<div>
 
@@ -307,7 +331,7 @@ function mapStateToProps({ guestbooks, auth, loginUserGuestbook }) {
 		guestbooks,
 		auth,
 		loginUserGuestbook,
-		errMsg : 'You enterd a wrong email.'
+		errMsg : 'You enterd a wrong email or your post is not availalbe..'
 
 	};
 

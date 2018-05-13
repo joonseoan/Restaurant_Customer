@@ -14,8 +14,9 @@ export default class DateTimeDisplay extends Component {
 
         }
 
-    }
+        this.setClock = this.setClock.bind(this);
 
+    }
 
     setClock( branch_city ) {
 
@@ -62,7 +63,7 @@ export default class DateTimeDisplay extends Component {
 
             <div> 
                     Date : { this.state.date.toDateString()} 
-                    , Time: { hours < 10 ? `0${hours}` : hours } 
+                    , Time : { hours < 10 ? `0${hours}` : hours } 
                     : { minutes }
                     : { seconds }
             
@@ -74,4 +75,3 @@ export default class DateTimeDisplay extends Component {
     }
 
 }
-

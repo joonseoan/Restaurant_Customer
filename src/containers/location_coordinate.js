@@ -13,7 +13,7 @@ class LocationCoordinate extends Component {
         return <div>Loading...</div>;
 
         const { lat, lng } = this.props.branchLocation.results[0].geometry.location;
-            
+        
         return(
 
             <div>
@@ -39,9 +39,7 @@ class LocationCoordinate extends Component {
             </div>
         );
 
-
     }
-
 
 }
 

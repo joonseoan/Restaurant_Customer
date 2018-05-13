@@ -240,9 +240,11 @@ class GuestbookNewCreated extends Component {
 
         }
 
-        console.log('values: ', values);
+        values.city = this.props.additionalTodayWeather.name;
 
         this.props.createGuestbook(values, () => {
+
+            console.log('values: ', values);
 
             const { history : { push }} = this.props;
 
@@ -262,10 +264,14 @@ class GuestbookNewCreated extends Component {
     render() {
 
         const { handleSubmit } = this.props;
-        // console.log('handleSubmit: ', handleSubmit);
+
         return(
 
             <div>
+
+                <h1>Customer Recommendation Survey</h1>
+
+                <h3>Thank you for joining the survey</h3>
 
                 <form onSubmit = { handleSubmit(this.onSubmit.bind(this)) }>
 
@@ -505,9 +511,9 @@ function validate(values) {
 
 }
 
-const mapStateToProps = ({ orderedMenu }) => {
+const mapStateToProps = ({ orderedMenu, additionalTodayWeather }) => {
 
-        return { orderedMenu };
+        return { orderedMenu, additionalTodayWeather };
 
 }
 

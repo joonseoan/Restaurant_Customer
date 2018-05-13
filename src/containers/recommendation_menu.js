@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import  SetCurrentRecommendation from '../components/set_current_recommendation';
 
+import { Link } from 'react-router-dom';
 
 function RecommendationMenu (props) {
 
@@ -54,6 +55,12 @@ function RecommendationMenu (props) {
                         />
                           
                 </table>
+
+                <Link to = '/guestbookAllPosted' className = 'btn btn-primary' >
+
+                    Feel free to find guest's recommendation!
+
+                </Link>
 
             </div>
         );

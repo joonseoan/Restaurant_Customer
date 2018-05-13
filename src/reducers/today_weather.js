@@ -6,7 +6,7 @@ export default function (state = null, action) {
 
         case FETCH_TODAY_WEATHER:
 
-       // console.log('TODAY_WEATHER action.payload', action.payload);
+        // console.log('TODAY_WEATHER action.payload', action.payload);
         return action.payload;
     
     }

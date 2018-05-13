@@ -94,7 +94,7 @@ class RecommendationDescriptions extends Component {
         
                 <div>
 
-                    <h3>[{ name }] : ${ price }</h3> 
+                    <h1>{ name } : ${ price }</h1> 
                     <img src = { path + file } alt = { spicy }/>
             
                         { this.beverage() }
@@ -106,6 +106,13 @@ class RecommendationDescriptions extends Component {
                     </div>
                     
                     <div>
+
+                        <p>
+
+                            <h2>Other recommendations</h2>
+                            <h3>(Please, click on pictures to select other recommendations)</h3>
+
+                        </p>
             
                         { this.picList() }
             

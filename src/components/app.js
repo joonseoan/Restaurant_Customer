@@ -24,11 +24,6 @@ class App extends Component {
             <div>
                 <MenuList />
             </div>
-            <Link to = '/guestbookAllPosted' className = 'btn btn-primary' >
-
-                    Feel free to find guest's recommendation!
-
-            </Link>
 
              {/* Should decide guestbook for guestbooklist*/}
              

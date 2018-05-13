@@ -320,10 +320,12 @@ class MenuList extends Component {
 
             <div>
 
-                <div><h2> Menu List </h2></div>
+                <div><h1> Menu List </h1></div>
+                <div><h3> Make orders here! Please click on menu names.</h3></div>
+                <div><h3> If you want to find more info about foods, please click pictures.</h3></div>
+                
                 <div>
-                    <legend> <h4> Select foods you would like to order </h4></legend>
-
+                    
                     <form onSubmit = { this.submitValue }> 
 
                         <table>
