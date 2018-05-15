@@ -22,7 +22,6 @@ class GuestbookPosted extends Component {
 
 	componentDidMount() {
 
-		const { id } = this.props.match.params;
 		const prePath = '/emailPasswordInput';
 		
 		// this.props.fetchGuestbook(id);

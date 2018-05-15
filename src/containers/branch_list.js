@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select-me';
 import 'react-select-me/lib/ReactSelectMe.css';
 
-import { weatherInfo, location, additionalTodayWeatherInfo } from '../actions';
+import { location, additionalTodayWeatherInfo } from '../actions';
 import DateTimeDisplay from '../components/date_time_display';
 import LocationCoordinate from './location_coordinate';
 
@@ -43,7 +43,7 @@ class BranchList extends Component {
 
         this.setState({ value : branch_city});
 
-        this.props.weatherInfo(branch_city);
+        //this.props.weatherInfo(branch_city);
       
         this.props.location(branch_city);
         
@@ -141,4 +141,4 @@ class BranchList extends Component {
 
 }
 
-export default connect (null, { weatherInfo, location, additionalTodayWeatherInfo } )(BranchList);
+export default connect (null, { location, additionalTodayWeatherInfo } )(BranchList);

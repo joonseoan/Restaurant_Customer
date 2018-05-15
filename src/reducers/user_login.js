@@ -6,8 +6,7 @@ export default function(state = null, action) {
 
         case USER_LOGIN:
         
-        console.log('login action: ', action.payload)
-        return action.payload || true;
+  		     return action.payload || true;
 
     }
 

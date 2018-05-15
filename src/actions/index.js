@@ -1,8 +1,7 @@
 import axios from 'axios';
 import DarkSkyApi from 'dark-sky-api';
 
-import { FETCH_FIVE_DAYS_WEATHER,
-         FETCH_LOCATION, 
+import { FETCH_LOCATION, 
          FETCH_TODAY_WEATHER,
          FETCH_ADDITIONAL_TODAY_WEATHER } from './fetch_weather';
 
@@ -19,24 +18,8 @@ import { FETCH_GUESTBOOKS,
          FETCH_LOGIN_GUESTBOOK } from './fetch_guestbooks';
 
 const TodayURL = `http://api.openweathermap.org/data/2.5/weather?appid=${Open_Weather_Key}`;
-const FiveDaysURL = `http://api.openweathermap.org/data/2.5/forecast?appid=${Open_Weather_Key}`;
 const GoogleURL = 'https://maps.googleapis.com/maps/api/geocode/json?address';
 const guestbookURL = 'https://vast-wave-33154.herokuapp.com';
-
-export function weatherInfo(branch_city) {
-
-    const URL = `${ FiveDaysURL }&q=${ branch_city },canada`;
-
-    const request = axios.get(URL);
-
-    return ({
-
-        type: FETCH_FIVE_DAYS_WEATHER,
-        payload: request 
-
-    });
-
-}
 
 export function location(branch_city) {
 
@@ -196,7 +179,7 @@ export function fetchLoginUserGuestbooks() {
 
 export function deleteLoginUserGuestbook(id, callback) {
 
-    const request = axios.delete(`${ guestbookURL }/guests/${id}`)
+    axios.delete(`${ guestbookURL }/guests/${id}`)
         .then(() => {
 
             callback();

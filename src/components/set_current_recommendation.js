@@ -17,6 +17,8 @@ function regexFilter(weather) {
         if (weather.match(patt))
         result = weather.match(patt);
 
+        return;
+    
     });
 
     return result[0];
