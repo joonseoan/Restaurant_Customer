@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 
 import { todayWeatherInfo } from '../actions';
-
 import TodayWeather from './today_weather';
 
 let startInterval;
@@ -18,7 +16,7 @@ class TodayWeatherCoordinate extends Component  {
 
         if (startInterval) clearInterval(startInterval);
 
-        startInterval = setInterval(() => {
+            startInterval = setInterval(() => {
 
             console.log('todayWeatherInfo (lat, lng) input', lat, lng)
 
@@ -51,7 +49,7 @@ class TodayWeatherCoordinate extends Component  {
 
                 <TodayWeather />
                 
-             </div>
+            </div>
                 
         );
       

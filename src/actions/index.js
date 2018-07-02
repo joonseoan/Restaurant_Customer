@@ -37,7 +37,7 @@ export function location(branch_city) {
 }
 
 export function todayWeatherInfo (lat, lng) {
-    
+    console.log(lat, lng)
     const position = { 
     
             latitude: lat, 
@@ -51,6 +51,7 @@ export function todayWeatherInfo (lat, lng) {
     return ({
 
         type: FETCH_TODAY_WEATHER,
+        
         payload: request
         
     });

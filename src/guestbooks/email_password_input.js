@@ -47,8 +47,6 @@ class EmailPasswordInput extends Component {
 
 	renderInputField(fields) {
 
-		console.log(fields)
-
         const { meta : { touched, error }} = fields;
 
         const className = `form-group ${ touched && error ? 'has-danger' : ''}`;
@@ -57,16 +55,13 @@ class EmailPasswordInput extends Component {
 
             <div className = { className }>
 
-            	{/* because it is not data ping to the server
-            		input type can be "text           	  */}
-            
-                    <input type = { fields.input.name === 'email' ? 'email' : 'password' }
+				<input type = { fields.input.name === 'email' ? 'email' : 'password' }
 
-                           className = 'form-control'
-                    
-                           { ...fields.input } // each property only
+						className = 'form-control'
+				
+						{ ...fields.input } // each property only
 
-                    />
+				/>
 
                 <div className = 'text-help'>
 
@@ -80,51 +75,48 @@ class EmailPasswordInput extends Component {
 
 	}
 
-	userGuestbookPosted() {
+	userGuestbookPosted(userGuestbooks) {
 
-		const { loginUserGuestbook } = this.props;
-
+		userGuestbooks.sort();
+		
 		let countNumber = 1;
 
-		if(!loginUserGuestbook || loginUserGuestbook.length === 0) {
+		if(!userGuestbooks || userGuestbooks.length === 0) {
 
 			return (
 
 				<div>
 				
-					<h1>All of your postings are deleted.</h1>
-					<h2>Thank you for joining the recommendation survey</h2>
+					<h1><center>All of your postings are deleted.</center></h1>
+					<h2><center>Thank you for joining survey</center></h2>
 
 				</div>
 			);
 
 		}
 
-		if(loginUserGuestbook) {
-
-			console.log('loginUserGuestbook', loginUserGuestbook);
-
-			return loginUserGuestbook.reverse().map(post => {
+		if(userGuestbooks) {
+			
+			return userGuestbooks.reverse().map(post => {
 
 				return (
 
-				<div key = { post._id } >
+					<div key = { post._id } style = {{ marginBottom : '30px'}}>
 
-					<div> { countNumber++ }. Customer: { post.email.substring(0, 3) }xxx@Owl Korean Restaurant at { post.visitedAt }</div>
+						<div> { countNumber++ }. Customer: { post.email.substring(0, 3) }xxx@Owl Korean Restaurant at { post.visitedAt }</div>
 
-					{/* In order to get props into Link here, define "state" */}
-					<Link to = {{ pathname : `/guestbookPosted/${post._id}`, state : this.props.history.location.pathname }} >
+						<Link to = {{ pathname : `/guestbookPosted/${post._id}`, state : this.props.history.location.pathname }} >
 
-						<li className ='list-group-item'>
+							<li className ='list-group-item'>
 
-							{ post.title }
+								{ post.title }
 
-						</li>
+							</li>
 
-					</Link>
+						</Link>
 
-				</div>
-
+					</div>
+						
 				);
 
 			});
@@ -139,7 +131,7 @@ class EmailPasswordInput extends Component {
 
 		const guestbooks = _.map(this.props.guestbooks, guestbook => guestbook);
 
-		guestbooks.map(guestbook => {
+		_.each(guestbooks, guestbook => {
 
 			if (guestbook.email === values.email) {
 
@@ -176,11 +168,8 @@ class EmailPasswordInput extends Component {
 
 	render() {
 
-		console.log(this.props);
-		const { handleSubmit } = this.props;
+		const { handleSubmit, loginUserGuestbook } = this.props;
 		const { state } = this.props.history.location;
-
-		console.log('state: ', state)
 
 		if ((this.state.loginsucess && this.state.message !== this.props.errMsg) || state === 'false') {
 
@@ -192,7 +181,9 @@ class EmailPasswordInput extends Component {
 
 						<center>
 
-							<h1>{'<Your recommendation lists>'}</h1>
+							<h3 className = 'center z-depth-4 red lighten-2' style = {{ color : 'white',
+							fontStyle : 'italic', 
+							fontFamily : 'monospace' }}>Your Posts</h3>
 						
 						</center>
 
@@ -200,12 +191,19 @@ class EmailPasswordInput extends Component {
 
 					<div>
 
-						<ul>{ this.userGuestbookPosted() }</ul>		
+						<ul>{ this.userGuestbookPosted(loginUserGuestbook) }</ul>		
 						
 					</div>
 
-					<Link to = '/' className = 'btn btn-danger'>Logout</Link>
-					<Link to = '/guestbookAllPosted' className = 'btn btn-primary'>Guestbook Lists</Link>
+					<Link to = '/' className = 'btn red'>Logout</Link>
+					<Link to = '/guestbookAllPosted' className = 'btn blue right'>
+					
+						Guestbook Lists
+					
+						<i className="small material-icons" style = {{verticalAlign : 'middle', marginLeft : '10px'}}>
+                                    format_list_bulleted
+                        </i>
+					</Link>
 
 				</div>
 			);
@@ -214,21 +212,24 @@ class EmailPasswordInput extends Component {
 
 		return (
 
-			<div className = 'center'>
+			<div className = 'card center-align'>
 
 				<div>
 
-					<h1> Find your posts </h1>
+					<h3 style = {{ marginBottom : '30px', fontFamily : 'monospace', fontStyle : 'italic', color : 'fuchsia' }}> Find Your Posts </h3>
 
 					<h5> Enter Your email and password </h5>
 				
 				</div>
 
+				<br />
+				<br />
+
 				<form onSubmit = { handleSubmit(this.onSubmit.bind(this)) }>
 
 					<div>
 
-						<label>
+						<label style = {{fontSize : '1.2em'}}>
 
 							Your email:
 
@@ -244,7 +245,7 @@ class EmailPasswordInput extends Component {
 
 					<div>
 
-						<label>
+						<label style = {{fontSize : '1.2em'}}>
 
 							Your password:
 
@@ -260,17 +261,26 @@ class EmailPasswordInput extends Component {
 					</div>
 
 					<div> { this.state.message } </div>
-
+	
+                    <Link to = '/' className = 'btn red' style = {{ marginBottom : '20px' }}>Cancel</Link>
+				
 					<Field
-                        name = 'submit'
-                        component = 'button'
-                        type = 'submit'
-                        className = 'btn btn-primary'
-                    >Submit
-                    </Field>
-                    
-                    <Link to = '/' className = 'btn btn-danger'>Cancel</Link>
+						style = {{ marginLeft : '50px', marginBottom : '20px'}}
+						name = 'submit'
+						component = 'button'
+						type = 'submit'
+						className = 'btn'
+					>
+					
+						Submit
 
+						<i className="small material-icons" style = {{verticalAlign : 'middle',
+                                                                marginLeft : '10px'}}>
+                                    filter_list
+                        </i>
+					
+					</Field>
+				
 				</form>
 
 			</div>
@@ -318,13 +328,7 @@ function validate(values) {
 
 }
 
-/*const mapStateToProps = ({ orderedMenu }) => {
-        return { orderedMenu };
-}*/
-
 function mapStateToProps({ guestbooks, auth, loginUserGuestbook }) {
-
-	console.log('loginUserGuestbook ', loginUserGuestbook);
 
 	return { 
 
@@ -339,9 +343,9 @@ function mapStateToProps({ guestbooks, auth, loginUserGuestbook }) {
 
 export default reduxForm({
 
-    // naming the form of this component
     form: 'emailPasswordGuestbook',
 	validate
+	// destroyOnUnmount : false
 
 })(
     

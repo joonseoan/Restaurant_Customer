@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import ReduxPromise from 'redux-promise';
 import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import 'materialize-css/dist/css/materialize.min.css';
 
 import App from './components/App';
 import GuestbookAllPosted from './guestbooks/guestbook_all_posted';
@@ -42,5 +43,3 @@ ReactDOM.render(
     </ Provider>
 
 , document.getElementById('root'));
-
-

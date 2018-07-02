@@ -1,5 +1,5 @@
 {
-  "name": "customer_app",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "proxy": {
@@ -13,6 +13,7 @@
     "express": "^4.16.3",
     "file-system": "^2.2.2",
     "lodash": "^4.17.5",
+    "materialize-css": "^0.100.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-google-maps": "^9.4.5",
@@ -23,6 +24,7 @@
     "react-select-me": "^0.10.3",
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
+    "redux-form-material-ui": "^4.3.4",
     "redux-promise": "^0.5.3",
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",

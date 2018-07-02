@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import GoogleMAP from '../components/google_map';
 import TodayWeatherCoordinate from './today_weather_coordinate';
 
 class LocationCoordinate extends Component {
     
-
     render() {
+        
+        console.log('this.props at loca_coordi : ', this.props);
+
 
         if(!this.props.branchLocation)
         return <div>Loading...</div>;
@@ -17,23 +18,15 @@ class LocationCoordinate extends Component {
         return(
 
             <div>
-                <div>
-
-                    <GoogleMAP
-                    
-                        lat = { lat }
-                        lng = { lng }
-                    
-                    />
-
-                </div>
 
                 <div>
+
                     <TodayWeatherCoordinate
                     
                         lat = { lat }
                         lng = { lng }
                     />
+                
                 </div>
 
             </div>
@@ -49,5 +42,3 @@ function mapsPropsToState({ branchLocation }) {
 }
 
 export default connect(mapsPropsToState)(LocationCoordinate);
-
-

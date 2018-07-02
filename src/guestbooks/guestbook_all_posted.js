@@ -27,18 +27,18 @@ class GuestbookAllPosted extends Component {
 
                 return (
 
-                <div key = { guestbook._id }>
+                    <div key = { guestbook._id } style = {{ marginBottom : '30px'}}>
 
-                    <div> { countNumber++ }. Customer: { guestbook.email.substring(0, 3) }xxx@Owl Korean Restaurant in {guestbook.city}</div>
-                    <div><i>{ guestbook.visitedAt }</i></div>
+                        <div> { countNumber++ }. Customer: { guestbook.email.substring(0, 3) }xxx@Owl Korean Restaurant in {guestbook.city}</div>
+                        <div><i>{ guestbook.visitedAt }</i></div>
 
-                    <Link to = {`/guestbookPosted/${guestbook._id}`} >    
-                     
-                        <li className ='list-group-item'> {guestbook.title} </li>
+                        <Link to = {`/guestbookPosted/${guestbook._id}`} >    
+                        
+                            <li className ='list-group-item'> {guestbook.title} </li>
 
-                    </Link>
-    
-                </div>
+                        </Link>
+        
+                    </div>
                 
                 );       
             
@@ -46,7 +46,7 @@ class GuestbookAllPosted extends Component {
 
                 dislikeEvaluation.push(guestbook);
                 
-                return;
+                return <div key={ guestbook._id } />;
             }
                     
         }));
@@ -55,16 +55,21 @@ class GuestbookAllPosted extends Component {
 
     render() {
 
-        console.log('this.props: ', this.props);
-
         return(
 
             <div>
 
                 <div>
                     
-                    <h1><center>Customer's best recommendations</center></h1>
-                    <h3><center>(Please, click on the list)</center></h3>
+                    <h3 className = 'center z-depth-4 red lighten-2' style = {{ color : 'white',
+                        fontStyle : 'italic', 
+                        fontFamily : 'monospace' }}>
+                    
+                        <center>Customer's Best Choices</center>
+                    
+                    </h3>
+                    
+                    <h5 style = {{ marginBottom : '30px'}}><center>(Please, click on the list)</center></h5>
 
                 </div>
 
@@ -78,15 +83,19 @@ class GuestbookAllPosted extends Component {
 
                 <div>
                     
-                    <Link className = "btn btn-danger" to = "/">
+                    <Link className = "btn red" to = "/">
                     
                         Back to main page
                     
                     </Link>
 
-                    <Link to = '/emailPasswordInput' className = 'btn btn-primary' >
+                    <Link to = '/emailPasswordInput' className = 'btn pink right' >
 
                         Delete your post
+                        <i className="small material-icons" style = {{verticalAlign : 'middle',
+                                                                marginLeft : '10px'}}>
+                                    delete
+                        </i>
 
                     </Link>
 

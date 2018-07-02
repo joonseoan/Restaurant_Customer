@@ -8,11 +8,11 @@ export default function (state = null, action) {
         case FETCH_ADDITIONAL_TODAY_WEATHER:
         
 	        return action.payload.data;
-    
-    }
 
-    //console.log('additionalWeathe', state);
+        default:
+        
+            return state;
 
-    return state;    
+    }   
 
 }

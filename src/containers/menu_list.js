@@ -37,13 +37,15 @@ class MenuList extends Component {
 
         const label = document.querySelector(`label.${removeSpace(name)}`);
 
-        let number = parseInt(label.innerHTML); 
+        let number = Number(label.innerHTML); 
 
         let current_name_price = this.state.name_price;
 
         if (!checked) { 
 
-            current_name_price.map((menu) => {
+            current_name_price.forEach(menu => {
+
+                console.log('name:####### ', name + ', ' + menu.name);
 
             if (menu.name === name) {
 
@@ -88,7 +90,7 @@ class MenuList extends Component {
 
         const label = document.querySelector(`label.${CurrentMenuName}`);
 
-        let labelValues = parseInt(label.innerHTML); 
+        let labelValues = Number(label.innerHTML); 
 
         const spans = document.querySelectorAll(`span#${CurrentMenuName}`); 
         
@@ -96,11 +98,11 @@ class MenuList extends Component {
 
         if (buttonValues !== '+') {
 
-            buttonValues = parseInt(buttonValues);
+            buttonValues = Number(buttonValues);
 
             const disPlayButtons = buttons.filter( buttonNumber => buttonNumber !== buttonValues);
                 
-            disPlayButtons.map( button => {
+            _.each(disPlayButtons, button => {
 
                 spans[button - 1].style.visibility = 'visible';
 
@@ -116,7 +118,7 @@ class MenuList extends Component {
             
             if(buttonValues > 5) {
 
-                buttons.map( button => {
+                _.each(buttons, button => {
 
                     spans[button - 1].style.visibility = 'visible';
     
@@ -124,16 +126,15 @@ class MenuList extends Component {
 
             }
 
-            // when more than 10, warning message!!! (Later on)
-
         }
         
         const displayNumber = document.createTextNode(buttonValues);
+
         if (label.firstChild) label.removeChild(label.firstChild);
         
         label.appendChild(displayNumber);
 
-        this.state.name_price.map( (find) => {
+        _.each(this.state.name_price, find => {
 
             const alias = removeSpace(find.name);
 
@@ -172,9 +173,12 @@ class MenuList extends Component {
                 
                 const buttons = [1, 2, 3, 4, 5 ]; // please, test it again.
 
-                const eachButton = buttons.map( (button) => {
+                const eachButton = buttons.map(button => {
     
-                    return <span key = { button } onClick = { this.numberOnChange.bind(this) } id = { removeSpace(item.name) } className = "btn btn-primary" >
+                    return <span key = { button } 
+                        onClick = { this.numberOnChange.bind(this) } 
+                        id = { removeSpace(item.name) } 
+                        className = "btn red lighten-2" style = {{width : '30px', height : '30px'}}>
                     
                         { button }
                     
@@ -188,7 +192,10 @@ class MenuList extends Component {
                     
                         { eachButton }
 
-                        <span onClick = { this.numberOnChange.bind(this) } id = { removeSpace(item.name) } className = "btn btn-primary" >+</span>
+                        <span onClick = { this.numberOnChange.bind(this) } 
+                            id = { removeSpace(item.name) } 
+                            className = "btn red lighten-2" 
+                            style = {{width : '30px', height : '30px'}}>+</span>
                     
                     </div>
                     
@@ -198,23 +205,23 @@ class MenuList extends Component {
             
             return (
              
-                <td key = { item.name } width = "300" height = "50" className = { removeSpace(item.name) } >
+                <td key = { item.name } className = { removeSpace(item.name) } style = {{ verticalAlign : "top", textAlign : "left"}} >
 
                     <div >
     
                         <div>
-                        
-                            <label >
-                                        
-                                <h5>{ item.name } (${ item.price }) </h5> 
-                                <input type = "checkbox" className = "input-checkbox" name = { item.name } 
-                                    value = { item.price } onChange = { this.menuOnChange.bind(this) } />
-                                
-                                <p> { item.description } </p>
-    
+                            
+                            <label>   
+                                <i className="small material-icons" style = {{ verticalAlign : "middle",
+                                                                               marginRight :  "10px",
+                                                                               color : "red"}}>add_circle_outline</i>    
+                                <b>{ item.name }</b> (${ item.price }) : <p>{ item.description }</p> 
+                                    
+                                <input type = "checkbox" name = { item.name } 
+                                value = { item.price }  onChange = { this.menuOnChange.bind(this)}/>
+                      
+                                <div><h3>{this.state.order}</h3></div>
                             </label>
-
-                            <div><h3>{this.state.order}</h3></div>
     
                         </div>
                                 
@@ -223,7 +230,9 @@ class MenuList extends Component {
                             <div>
                                 Number of Orders: <label className = { removeSpace(item.name) }>1</label>
                             </div>
-                            { buttonDisplay() }
+                            <div>
+                                { buttonDisplay() }
+                            </div>
                                 
                         </div>
     
@@ -239,10 +248,21 @@ class MenuList extends Component {
                
             return (
     
-                <td key = { item.name } className = { removeSpace(item.name) } id = "all-pictures" >
+                <td key = { item.name } className = { removeSpace(item.name) } id = "all-pictures" width = '200' >
                     <Link to = { `/description/${item.name}`} key = { item.id }>
-                                
-                       <img src = { path + item.file } alt = { item.name } width = "200" />
+
+                    <div className = 'btn' style = {{ marginBottom : '20px'}}>
+                
+                        Check Detail
+                        <i className="small material-icons" style = {{ verticalAlign : 'middle',
+                        marginLeft : '10px' }}>check</i>
+                
+                    </div>
+                          
+                       <img src = { path + item.file } alt = { item.name } width = '150' height = '100'
+                        style = {{ border: '1px solid #ddd', borderRadius: '4px', padding: '5px'}} 
+                            className = 'responsive-image'
+                        />
             
                     </Link>
                 </td>
@@ -287,6 +307,20 @@ class MenuList extends Component {
                     { forthRow.map(pictures) }
                 </tr>
 
+                <tr>
+                    <td colSpan = '4' className = 'right-align'>
+
+                        <div onClick = { this.handleOpenModal.bind(this) } className = "btn right">
+                    
+                            Click to make an order
+                    
+                            <i className="small material-icons" style = {{ verticalAlign : 'middle',
+                                                                marginLeft : '10px'}}>add_circle</i>
+                        </div>
+                    
+                    </td>
+                </tr>
+
             </tbody>
   
         );
@@ -318,17 +352,25 @@ class MenuList extends Component {
         
         return (
 
-            <div>
+            <div className = 'card white darken-1'>
 
-                <div><h1> Menu List </h1></div>
-                <div><h3> Make orders here! Please click on menu names.</h3></div>
-                <div><h3> If you want to find more info about foods, please click pictures.</h3></div>
+                <div className = 'red lighten-2'>
+                    <h4 className = 'center z-depth-4' style = {{ color : 'white',
+                                                                 fontStyle : 'italic', 
+                                                                 fontFamily : 'monospace' }}
+                    >
+                        Menu & Order
+                    
+                    </h4>
                 
+                </div>
+            
                 <div>
                     
                     <form onSubmit = { this.submitValue }> 
 
-                        <table>
+                        <table className = 'centered responsive-table'>
+
                             <thead>
                                 <tr>
                                     <th>
@@ -353,16 +395,16 @@ class MenuList extends Component {
                     </form> 
                     
             </div>
+                
+                <Bill openStatus = { this.state.showModal } menuChecked = { this.state.name_price }>
 
-            <div onClick = { this.handleOpenModal.bind(this) } className = "btn btn-primary" >Click to make an order</div>
+                    <div className = 'btn-floating btn-small red' onClick = { this.handleCloseModal.bind(this) } >
+                        <i className="small material-icons">arrow_back</i>
+                    </div>
 
-                <Bill  openStatus = { this.state.showModal } menuChecked = { this.state.name_price }>
+                </Bill>  
 
-                    <div onClick = { this.handleCloseModal.bind(this) } > Start over choosing your menu again.</div>
-
-                </Bill>      
-
-            </div>        
+            </div>       
 
         );
 

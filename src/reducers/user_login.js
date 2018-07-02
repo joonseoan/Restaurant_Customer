@@ -8,8 +8,12 @@ export default function(state = null, action) {
         
   		     return action.payload || true;
 
+        default:
+    
+            return state;
+   
     }
 
-    return state;
+    
 
 }

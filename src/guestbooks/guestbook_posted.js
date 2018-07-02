@@ -24,8 +24,6 @@ class GuestbookPosted extends Component {
 
 		const prePath = '/emailPasswordInput';
 		
-		// this.props.fetchGuestbook(id);
-
 		if(this.props.history.location.state === prePath) {
 
 			this.setState({ authenticated : true });
@@ -41,11 +39,14 @@ class GuestbookPosted extends Component {
 
 				<div 
 					onClick = { this.deletePost.bind(this) }
-					className = 'btn btn-danger'
+					className = 'btn red right'
 				>
 
 					Delete this post
-
+					<i className="small material-icons" style = {{verticalAlign : 'middle',
+                                                                marginLeft : '10px'}}>
+                                    delete
+                    </i>
 				</div>
 
 		);
@@ -75,16 +76,17 @@ class GuestbookPosted extends Component {
 
 			<div>
 
-				<div>
+				<div className = 'card card-content'>
 
-					<h1>[ I ate { food }! ]</h1>
-					<h3>{ title }</h3>
-					<p>{ comments }</p>
-					<div>{ visitedAt }</div>
+					<h3 className = 'card-title blue lighten-2 white-text'><center>I ate { food }!</center></h3>
+					<h5 style = {{ marginLeft: '10px'}}>{ title }</h5>
+					<p style = {{ marginLeft: '10px'}}>{ comments }</p>
+					<p style = {{ textAlign : 'right', fontStyle :'italic', marginRight: '10px' }} >{ visitedAt }</p>
 						
 				</div>
 
-				<Link to = {{ pathname : this.state.authenticated ? '/emailPasswordInput' : '/guestbookAllPosted', state: 'false'}} className = 'btn btn-primary' >
+				<Link to = {{ pathname : this.state.authenticated ? '/emailPasswordInput' : '/guestbookAllPosted', state: 'false'}} 
+					className = 'btn pink' >
 
 					{ this.state.authenticated ? 'Back to YOUR Guestbook List' : 'Back to Guestbook List' }
 

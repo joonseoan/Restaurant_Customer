@@ -53,8 +53,6 @@ export default class DateTimeDisplay extends Component {
 
     render () {
 
-        //if (!this.props) return <div>Loading....</div>;
-        
         const hours = this.state.date.getHours() > 12 ? this.state.date.getHours()-12 : this.state.date.getHours();
         const minutes = this.state.date.getMinutes() < 10 ? `0${ this.state.date.getMinutes()}` : this.state.date.getMinutes();
         const seconds = this.state.date.getSeconds() < 10 ? `0${ this.state.date.getSeconds()}` : this.state.date.getSeconds();

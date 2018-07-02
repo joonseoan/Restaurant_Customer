@@ -1,13 +1,29 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
-
 import _ from 'lodash';
+
+import GoogleMap from '../components/google_map';
+import { regexFilter } from  '../utils/mainWeather';
 
 
 function roundData (weather) {
    
     return (_.round(weather));
+
+}
+
+function weatherImage(mainWeather) {
+
+    console.log(mainWeather)
+
+    const image = regexFilter (mainWeather);
+
+    console.log('image: ', image)
+
+    const src = `../images/${ image }.PNG`;
+    
+    return <img src = { src } className = 'responsive-img' alt = { image } 
+                                style = {{ width : 70 } } />
 
 }
 
@@ -18,40 +34,55 @@ function TodayWeather (props) {
 
         const weather = props.todayWeather;
         const additionalWeather = props.additionalTodayWeather;
+        const { lat, lng } = props.branchLocation.results[0].geometry.location; 
 
-       // console.log('today_weather', props.todayWeather)
+        console.log('todayWeather: ', props.todayWeather)
+        console.log('additionalTodayWeather: ', props.additionalTodayWeather.weather[0].main)
         
         return(
         
-            <div> 
+            <div className = 'card darken-1'>
 
-                <table border= "1">
+            <div className = 'red lighten-2'>
+                <h4 className = 'center z-depth-4' style = {{ color : 'white',
+                                                            fontStyle : 'italic', 
+                                                            fontFamily : 'monospace' }}
+                > 
+                    Real-Time Weather Info
+                </h4>
+           </div>
+           
+
+                <table className='centered responsive-table' border= "1">
                     <thead>
                         <tr>
-                            
                             <th>
-                                Today Weather Summary
+                                Location
+                            </th>          
+                            <th>
+                                Summary
+                            </th>
+                            <th style = {{ width : 70 } }>
+                                <i className="small material-icons">arrow_drop_down</i>
+                            </th>
+                            <th style = {{ width : 70 } }>
+                                <i className="small material-icons">arrow_drop_up</i>
                             </th>
                             <th>
-                                Max. Temperature (C)
+                                Present Weather
                             </th>
                             <th>
-                                Min. Temperature (C)
+                                Description
                             </th>
-                            <th>
-                                Current Weather
+                            <th style = {{ width : 70 } }>
+                                Present
                             </th>
-                            <th>
-                                Current Temperature (C)
+                            <th style = {{ width : 70 } }>
+                                Apparent
                             </th>
+
                             <th>
-                                Apparent Temperature (C)
-                            </th>
-                            <th>
-                                Weather Description
-                            </th>
-                            <th>
-                                Wind Speed (KM/Hour)
+                                Wind Speed
                             </th>
 
                         </tr>
@@ -61,30 +92,33 @@ function TodayWeather (props) {
                     
                         <tr>
                             
-                            <th>
-                                { weather.summary }
-                            </th>
-                            <th>
-                                { roundData((additionalWeather.main.temp_max) - 273) }
-                            </th>
-                            <th>
-                                { roundData((additionalWeather.main.temp_min) - 273) }
-                            </th>
-                            <th>
-                                { additionalWeather.weather[0].main }
-                            </th>
-                            <th>
-                                { roundData((weather.temperature -32) / 1.8) }
-                            </th>
-                            <th>
-                                { roundData((weather.apparentTemperature -32) / 1.8) }
-                            </th>
-                            <th>
+                            <td>
+                                <GoogleMap lat = { lat } lng = { lng } />
+                            </td>
+                            <td>
+                                { weatherImage(weather.summary) }
+                            </td>
+                            <td>
+                                { roundData((additionalWeather.main.temp_max) - 273) } &#8451;
+                            </td>
+                            <td>
+                                { roundData((additionalWeather.main.temp_min) - 273) } &#8451;
+                            </td>
+                            <td>
+                                { weatherImage(additionalWeather.weather[0].main) }
+                            </td>
+                            <td>
                                 { additionalWeather.weather[0].description }
-                            </th>
-                            <th>
-                                { roundData(weather.windSpeed * 1.61) }
-                            </th>
+                            </td>
+                            <td>
+                                { roundData((weather.temperature -32) / 1.8) } &#8451;
+                            </td>
+                            <td>
+                                { roundData((weather.apparentTemperature -32) / 1.8) } &#8451;
+                            </td>
+                            <td>
+                                { roundData(weather.windSpeed * 1.61) } Km/h
+                            </td>
 
                         </tr>
 
@@ -96,9 +130,9 @@ function TodayWeather (props) {
 
 }
 
-function mapStateToProps ({ todayWeather, additionalTodayWeather }) {
+function mapStateToProps ({ todayWeather, additionalTodayWeather, branchLocation }) {
 
-    return({ todayWeather, additionalTodayWeather });
+    return({ todayWeather, additionalTodayWeather, branchLocation });
 
 }
 

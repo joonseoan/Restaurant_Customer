@@ -1,10 +1,8 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
-
-import  SetCurrentRecommendation from '../components/set_current_recommendation';
-
 import { Link } from 'react-router-dom';
+
+import SetCurrentRecommendation from '../components/set_current_recommendation';
 
 function RecommendationMenu (props) {
 
@@ -14,55 +12,86 @@ function RecommendationMenu (props) {
         const { main } = props.additionalTodayWeather.weather[0];
         const { apparentTemperature } = props.todayWeather;
 
-        //console.log ('props.menu', props.menu)
         return (
 
-            <div className = "today-special">
+            <div className = "card darken-1">
 
-                <h1> Current Recommendation </h1>
-            
-                <table border = "1">
+                <div className = 'red lighten-2'>
+                    <h4 className = 'center z-depth-4' style = {{ color : 'white',
+                                                                 fontStyle : 'italic', 
+                                                                 fontFamily : 'monospace' }}
+                    >
+                        Special For you Based on Weather
+                    
+                    </h4>
+                
+                </div>
 
-                    <thead>
-                        <tr>
-                            <th>
-                                Soup
-                            </th>
-                            <th>
-                                Main
-                            </th>
-                            <th>
-                                Side Dish
-                            </th>
-                            <th>
-                                Liquor
-                            </th>
-                            <th>
-                                Soda
-                            </th>
-                        </tr>
+                <div>
+                    <table border = "1" className = 'responsive-table centered'>
 
-                    </thead>
-                    {/*console.log(main)}
-                    console.log(props.menu) */}
-                        
-                        <SetCurrentRecommendation
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    Soup
+                                </th>
+                                <th>
+                                    Main
+                                </th>
+                                <th>
+                                    Side Dish
+                                </th>
+                                <th>
+                                    Liquor
+                                </th>
+                                <th>
+                                    Soda
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <SetCurrentRecommendation
+                                
+                                inputMenus = { props.menu }
+                                mainWeather = { main }
+                                temperature = { apparentTemperature }
+                                
+                            />
+                            <tr>
+
+                                <td colSpan = '5'>
+                                
+                                    <Link to = '/guestbookAllPosted' 
+                                        className = 'btn waves-effect waves-light right'
                             
-                            inputMenus = { props.menu }
-                            mainWeather = { main }
-                            temperature = { apparentTemperature }
-                              
-                        />
-                          
-                </table>
+                                    >
+    
+                                        REVIEW CUSTOMER's BEST CHOICE
+    
+                                        <i className='small material-icons' style = {{ verticalAlign : 'middle',
+                                                                                        marginLeft : '10px' }}>
+                                            rate_review
+                                        
+                                        </i>
+    
+                                    </Link> 
 
-                <Link to = '/guestbookAllPosted' className = 'btn btn-primary' >
+                                </td>
 
-                    Feel free to find guest's recommendation!
+                            </tr>
+                            
+                        </tbody>
+                                  
+                    </table>
 
-                </Link>
-
+                </div>
+        
             </div>
+
         );
 }
 

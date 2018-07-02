@@ -7,9 +7,11 @@ export default function(state = null, action) {
         case FETCH_LOGIN_GUESTBOOK:
 
 	        return action.payload.data.guestbooks;
-    
-    }
 
-    return state;
+        default:
+        
+            return state;
+
+    }
 
 }

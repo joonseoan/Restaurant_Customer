@@ -1,31 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
 
 const ThankYouAndGuestbook = (props) => {
 	
-	console.log('thankyou props: ', props)
-
 	return(
-		<div> 
+		<div className = 'card center-align' style = {{ marginTop: '20%'}}> 
 
-			<h2> Thank you for your order!!! </h2>
-			<h2> Enjoy and Have a great time! </h2>
+			<h3 className = 'red lighten-2 white-text'
+				style = {{ fontFamily : 'monospace'}}
+			>
+			
+				Thank you for your order!!!
+			
+			</h3>
+
+			<h5 style = {{ marginBottom : '20px'}}> Enjoy foods and Have a great time!</h5>
 
 			<Link to = '/guestbookNewCreated'>
 			
-				<div className = 'btn btn-primary'>
+				<div className = 'btn' style = {{ marginTop : '20px'}}>
 
-					Would you like join our survey once you finish your meal?
-					Click this button!
+					Would you like to join our survey?
 
 				</div>
 
 			</Link>
-
+			<br />
 			<Link to = '/'>
 
-				<div className = 'btn btn-danger'> 
+				<div className = 'btn red' style = {{ marginTop : '40px'}}> 
 
 		            Skip this survey
 

@@ -4,23 +4,6 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { storeOrders } from '../../actions/index'
 
-import GuestbookNewCreated from '../../guestbooks/guestbook_new_created';
-
-const customStyles = {
-
-    constent : {
-
-        top : '50%',
-        left : '50%',
-        right : 'auto',
-        bottom : 'auto',
-        marginRight : '-50%',
-        transform : 'translate(-50%, -50%)'
-    
-    }
-          
-};
-
 Modal.setAppElement('#root');
 
 function rounding (number) {
@@ -43,16 +26,18 @@ class Bill extends Component {
 
         let orderNumber = this.props.menuChecked.indexOf(order) + 1;
 
-        return ( 
-            
-            <ul key = { name }><h3><b> {orderNumber}. { name } </b></h3>
+        return (
 
-                <li> Unit Price : ${ unitPrice } </li>
-                <li> Number of Orders : { number } </li>
-                <li> Sub Total : ${ rounding(subTotal) }</li>
+            <ul key = { name } style = {{ marginLeft : '50px', marginTop : '70px', marginBottom : '50px'}}>
+                
+                <h5><b>{orderNumber}. { name }</b></h5>
+
+                <li className = 'right' style = {{ marginRight : '50px'}}>Unit Price : ${ unitPrice }</li><br/>
+                <li className = 'right' style = {{ marginRight : '50px'}}>Qty : { number } </li><br/>
+                <li className = 'right' style = {{ marginRight : '50px'}}> Sub Total : ${ rounding(subTotal) }</li><br/>
                 
             </ul>
-                
+
         );
 
     }
@@ -61,9 +46,9 @@ class Bill extends Component {
 
         let totalOrders = 0;
 
-        this.props.menuChecked.map(order => {
+        _.each(this.props.menuChecked, order => {
 
-            totalOrders += parseInt(order.number);
+            totalOrders += order.number;
 
         });
 
@@ -76,9 +61,9 @@ class Bill extends Component {
         let totalAmount = 0;
         let subTotalAmount = 0;
 
-        this.props.menuChecked.map(order => {
+        _.each(this.props.menuChecked, order => {
 
-            subTotalAmount = order.value * parseInt(order.number);
+            subTotalAmount = order.value * order.number;
             totalAmount += subTotalAmount;
 
         });
@@ -103,11 +88,7 @@ class Bill extends Component {
 
     render() {
 
-        console.log(this.props)
-
         if(!this.props) return <div>Loading...</div>
-
-            const { history } = this.props;
 
         if(this.props.menuChecked.length === 0) {
 
@@ -115,66 +96,80 @@ class Bill extends Component {
 
                 <Modal isOpen = { this.props.openStatus }>
 
-                <div>
-                    
                     <div>
-                    
-                        Sorry, customer. You have not chose the menu yet.        
-                    
+                        <center>
+                            <div>
+                            
+                            <h3>Sorry, customer.</h3>
+                            <h3>You have not chosen the menu yet.</h3>
+                            
+                            </div>
+
+                            <div> 
+
+                                    { this.props.children }
+
+                            </div>
+                        </center>
+
                     </div>
-
-                    <div className = 'btn btn-danger'> 
-
-                            { this.props.children }
-
-                    </div>
-
-                </div>
 
                 </Modal>
+
             );
 
         }
 
-        return ( 
-  
-            <div style = {{ customStyles }}>
-                
-                <Modal isOpen = { this.props.openStatus }>
-
-                    <h2 ref = { subtitle => subtitle = subtitle }>Order Confirmation</h2>
-
-                    <div> 
-                    
-                        { this.props.menuChecked.map(this.orderList.bind(this)) }
-                    
-                    </div>
-
-                    <div>
-
-                        <h4>Total number of Orders : { this.numberOfOrders() }</h4>
-                        <h4>Total price: ${ rounding(this.totalAmount()) }</h4>
-                        <h4>HST: 15%</h4>
-                        <h4>Total Payable: ${ rounding(this.totalAmount() * 1.15) }</h4>
-
-                    </div>
-
-                        <div className = 'btn btn-danger'> 
-
-                            { this.props.children }
-
-                        </div>
-
-                    {/*<form onSubmit = { this.onSubmit.bind(this) } > */}
+        return (            
                         
-                        <input type = 'submit' value = 'Submit Orders' className = "btn btn-primary" onClick = { this.eventClick.bind(this)} /> 
-                       
-                    {/*</form> */}
-                   
-                </Modal>
+            <Modal isOpen = { this.props.openStatus } style = { { content : { width : '40%',        
+                                                        margin : 'auto'}}}>
 
-            </div>
-        
+                <div>
+                
+                    { this.props.children }
+                    
+                </div>
+               
+                <h5 ref = { subtitle => subtitle } style = {{textDecoration : 'underline',
+                                                             fontFamily : 'monospace',
+                                                             fontStyle : 'italic'}}>
+                    
+                                                 
+                    <center>Your Reciet Anticipated</center>
+                
+                </h5>
+
+                <div> 
+                
+                    { this.props.menuChecked.map(this.orderList.bind(this)) }
+                
+                </div>
+
+                <div className = 'right'>
+
+                    <p>----------------------------------------</p>
+
+                    <p style = {{ fontSize : '1.2em'}}>Total number of Orders : { this.numberOfOrders() }</p>
+                    <p style = {{ fontSize : '1.2em'}}>Total price: ${ rounding(this.totalAmount()) }</p>
+                    <p style = {{ fontSize : '1.2em'}}>HST: 15%</p>
+                    <p style = {{textDecoration : 'underline', color : 'blue', fontSize : '1.3em'}}>Total Payable: ${ rounding(this.totalAmount() * 1.15) }</p>
+
+                </div>
+
+                <button type = 'submit' value = 'Submit Orders' 
+                        className = "btn blue right" onClick = { this.eventClick.bind(this)}
+                        style = {{ marginTop : '20px'}}        
+                
+                >
+
+                        Submit Order
+                        <i className="small material-icons" style = {{ verticalAlign : 'middle', marginLeft : '10px' }}>check_circle</i>
+                
+                </button>
+                
+            </Modal>
+
         );
 
     }
@@ -182,6 +177,3 @@ class Bill extends Component {
 }
 
 export default connect (null, { storeOrders })(Bill);
-
-
-

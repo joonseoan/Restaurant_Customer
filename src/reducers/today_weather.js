@@ -6,11 +6,15 @@ export default function (state = null, action) {
 
         case FETCH_TODAY_WEATHER:
 
-       		return action.payload;
+            return action.payload;
+        
+        default:
+            
+            return state;  
     
     }
 
-    return state;    
+   
 
 }
 

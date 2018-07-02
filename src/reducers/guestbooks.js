@@ -8,10 +8,13 @@ export default function(state = {}, action) {
 
         case FETCH_GUESTBOOKS:
         
-        return _.mapKeys(action.payload.data.list, '_id');
+            return _.mapKeys(action.payload.data.list, '_id');
+
+        default:
+            
+            return state;
 
     }
 
-    return state;
 
 }

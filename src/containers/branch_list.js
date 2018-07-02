@@ -35,7 +35,6 @@ class BranchList extends Component {
         };
 
         this.onInputChange = this.onInputChange.bind(this); 
-
         
     }
     
@@ -43,18 +42,13 @@ class BranchList extends Component {
 
         this.setState({ value : branch_city});
 
-        //this.props.weatherInfo(branch_city);
-      
         this.props.location(branch_city);
         
         this.props.additionalTodayWeatherInfo(branch_city);
 
-        // if the startInterval is working 
         if(startInterval) clearInterval(startInterval);
 
         startInterval = setInterval(() => {
-
-            console.log('branch_city',branch_city);
 
             this.props.additionalTodayWeatherInfo(branch_city);
 
@@ -68,7 +62,6 @@ class BranchList extends Component {
         // When reloading it is undefined.
         // So We can start from Toronto again
         //      even though localStorage is implemented.
-        console.log('compo', branch_city)
 
         if (!branch_city) {
 
@@ -115,9 +108,9 @@ class BranchList extends Component {
 
                 </div>
 
-                <div>
+                <div style = {{ marginTop :  '50px', marginBottom : '50px'}}>
                             
-                        <h1><center>Welcome to Korean Restaurant in {`${this.state.value}`}</center></h1>
+                    <h4 style = {{ fontFamily : 'monospace', fontStyle : 'italic'}}><center>Welcome to Korean Restaurant in {`${this.state.value}`}</center></h4>
 
                 </div>
 

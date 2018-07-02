@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-
 import { Field, reduxForm } from 'redux-form';
-
 import { Link } from 'react-router-dom';
-
 import { connect } from 'react-redux';
+// import { RadioButtonGroup, Checkbox } from 'redux-form-material-ui';
 
 import { createGuestbook } from '../actions/index';
 
@@ -31,24 +29,30 @@ class GuestbookNewCreated extends Component {
 
         const className = `form-group ${ touched && error ? 'has-danger' : ''}`;
 
+        const placeholders = fields.input.name === 'servComments' ? 'Please detail your complaints here.' : '';
+
         return (
 
-            <div className = { className }>
+            <div className = { className } style = {{ marginBottom : '40px'}}>
 
+                <p><strong>{ fields.showTitle }
+
+                { fields.input.name === 'telephone' || 
+                            fields.input.name === 'servComments' ? '' : ' (Required)' }</strong></p>
+                
                 <label>
 
-                    { fields.showTitle }{ fields.input.name === 'telephone' ? '' : '(Required)' }
-
-                    <input type = { 
+                    <input type = {  
 
                                     fields.input.name === 'password' || 
                                     fields.input.name === 'password2' ?
                                     'password' : 'text'
+                                    
         
                                   }
 
-                           className = 'form-control'
-
+                           width = '300' height = '500'
+                           placeholder = { placeholders }       
                            { ...fields.input } // each property only
 
                     />
@@ -69,22 +73,20 @@ class GuestbookNewCreated extends Component {
 
     renderInputEmail(field) {
 
-        console.log(field)
-
         const { meta : { touched, error }} = field;
 
         const className = `form-group ${ touched && error ? 'has-danger' : ''}`;
 
         return (
 
-            <div className = { className }>
+            <div className = { className } style = {{ marginBottom : '40px'}}>
+            
+                <p>{ field.showTitle } (Required)</p>
 
                 <label>
 
-                    { field.showTitle }(Required)
 
                     <input type = 'email'
-                           className = 'form-control'
                            { ...field.input } // each property only
                            placeholder = 'Example: example@example.com'
                     />
@@ -111,14 +113,14 @@ class GuestbookNewCreated extends Component {
 
         return (
 
-            <div className = { className }>
+            <div className = { className } style = {{ marginBottom : '40px'}}>
+            
+                <p><strong>Comments. Give us your valuable feedback. (Required)</strong></p>
 
-                <label>
+                <label htmlFor = 'textarea1'>
 
-                    (Required)
-
-                    <textarea
-                        className = 'form-control'
+                    <textarea id="textarea1" className="materialize-textarea"
+                        
                         { ...field.input } // each property only
                         cols = '50'
                         rows = '10'
@@ -128,7 +130,8 @@ class GuestbookNewCreated extends Component {
                 </label>
 
                 <div className = 'text-help'>
-                { touched ? error : '' }
+            
+                    { touched ? error : '' }
 
                 </div>
 
@@ -146,7 +149,7 @@ class GuestbookNewCreated extends Component {
 
         return(
 
-            <div className = { className }>
+            <div className = { className } style = {{ marginBottom : '70px'}}>
 
             { options.map(option => {
 
@@ -154,29 +157,29 @@ class GuestbookNewCreated extends Component {
 
                 return( 
 
-                    <label key = { option.name } >
+                    <label key = { option.name } style = {{ marginTop : '10px', marginLeft : '5px', fontSize : '1.1em', marginRight: '20px', color : 'black'}}>
 
-                        { option.name }
-
-                        <input type = 'radio'
-                         className = 'form-control'
-                         { ...fields.input }
+                        <p>{ option.name }</p>
+                        
+                        <input className = 'button-css' type = 'radio'
+                        
+                        { ...fields.input }
                         
                         />
 
                     </label>
 
-                );
+            );
 
-            })  }
+            })}
 
-            <div className = 'text-help'>
+            <div className = 'text-help' style = {{ marginTop : '25px'}}>
 
                         { touched ? error : '' }
 
-                </div>
-
             </div>
+
+        </div>
 
         );
 
@@ -184,46 +187,65 @@ class GuestbookNewCreated extends Component {
     
     renderLikeDislike(fields) {
 
-        console.log(fields);
-
         let { meta: { touched, error }, options, input } = fields;
-
-        console.log('option', options)
 
         const className = `form-group ${ touched && error ? 'has-danger' : ''}`;
 
-        input.value = options;
+        let count = 0;
 
         return (
-                
-            <div className = { className }>
 
-                <input type = 'radio'
-                    className = 'form-control'
-                    { ...fields.input } // each property only
-                    
-                />
-                
-                <div className = 'text-help'>
+            <div className = { className } style = {{ marginBottom : '70px'}}>
 
-                    { touched ? error : '' }
+                { options.map(option => {
+
+                    input.value = option;
+
+                    let color = count === 0 ? 'blue' : 'red';
+
+                    count++;
+
+                    return( 
+
+                        <label key = { option } style = {{ 
+
+                            fontSize : '1.1em', 
+                            marginTop : '10px',
+                            marginRight : '10px',
+                            color : `${color}`,
+                            paddingLeft : '20px'
+                                                    
+                          }}>
+
+                             I { option } this menu 
+
+                            <input className = 'right button-css' type = 'radio'
+                                style = {{ verticalAlign : 'middle', marginTop : '8px', marginLeft:'-10px'}}
+                                { ...fields.input }
+                            
+                            />
+
+                        </label>
+
+                    );
+
+                })}
+
+                <div className = 'text-help' style = {{ marginTop : '25px'}}>
+
+                     { touched ? error : '' }
 
                 </div>
 
             </div>
 
-        );
+            );
 
     }
     
-    // "values" of submitting.
-    // It works at once.
-    // Key is "name" defined in <Field>
-    // each form element's "value" only
     onSubmit(values) {
 
         if(values.likeDislike) {
-
 
             if(values.likeDislike === 'like')
             {
@@ -243,8 +265,6 @@ class GuestbookNewCreated extends Component {
         values.city = this.props.additionalTodayWeather.name;
 
         this.props.createGuestbook(values, () => {
-
-            console.log('values: ', values);
 
             const { history : { push }} = this.props;
 
@@ -267,68 +287,33 @@ class GuestbookNewCreated extends Component {
 
         return(
 
-            <div>
+            <div className = 'card container' style = {{ position :'relative', width : '800px', marginLeft : '60px'}}>
 
-                <h1>Customer Recommendation Survey</h1>
+                <h3 className = 'center z-depth-4 red lighten-2' style = {{ color : 'white',
+                fontStyle : 'italic', 
+                fontFamily : 'monospace' }}>Customer Survey</h3>
 
-                <h3>Thank you for joining the survey</h3>
+                <form  onSubmit = { handleSubmit(this.onSubmit.bind(this))} style = {{ marginTop : '50px'}}>
 
-                <form onSubmit = { handleSubmit(this.onSubmit.bind(this)) }>
+                    <strong>Select the one you ordred (Required)</strong>
+                                            
+                    <Field 
 
-                    <div>
+                        name = 'food'
+                        component = { this.orderedManuList }
+                        options = { this.props.orderedMenu }
 
-                        <label>
-
-                            Select the one you ordred(Required)
+                    />
                         
-                        </label>
-
-                        <Field
-
-                            name = 'food'
-                            component = { this.orderedManuList }
-                            options = { this.props.orderedMenu }
-
-                        /> 
-
-                    </div>
-
-                    <div>
-
-                        (Required)
-
-                        <div>
-                            <label>
-
-                                I like my order.
-
-                                <Field
-
-                                    name = 'likeDislike'
-                                    component = { this.renderLikeDislike }
-                                    options = 'like'
-                                    
-                                />
-
-                            </label>
-
-                            <label>
-
-                                I am not satisfied with my order.
-
-                                <Field
-
-                                    name = 'likeDislike'
-                                    component = { this.renderLikeDislike }
-                                    options = 'dislike'
-
-                                />
-
-                            </label>
-
-                        </div>
-
-                    </div>
+                    Are you satisfied with your meal? (Required)
+    
+                    <Field
+                    
+                        name = 'likeDislike'
+                        component = { this.renderLikeDislike }
+                        options = {[ 'like', 'dislike' ]}
+                        
+                    />
                     
                     <Field
 
@@ -344,6 +329,7 @@ class GuestbookNewCreated extends Component {
                     />
 
                     <Field
+    
                         name = 'email'
                         component = { this.renderInputEmail }
                         showTitle = 'Your Email'
@@ -364,31 +350,37 @@ class GuestbookNewCreated extends Component {
                         showTitle = 'Confirm Your Password'
                     
                     />
-                    <label>
-
-                        I don't like this restaurant's way of service.
-                        (Optional)
-
-                         <Field
-                            name = 'servDislike'
-                            component = 'input'
-                            type = 'checkbox'
-                            value = 'true'
-                            onClick = { this.inputClick.bind(this) }
                     
-                        />
-                    
-                    </label>
+                    <div>
 
+                    <label style = {{ fontSize : '1em', color : 'black' }}>
+                    
+                        I don't like your service. (Optional)
+
+                            <Field
+                                style = {{ verticalAlign : 'middle'}}
+                                className = 'button-css'
+                                name = 'servDislike'
+                                component = 'input'
+                                type = 'checkbox'
+                                value = 'true'
+                                onClick = { this.inputClick.bind(this) }
+                        
+                            />
+                        
+                        </label>
+                    
+                    </div>
+                    
                     <div> 
 
-                        <label style = { { visibility: this.state.visibility} }>"Please detail your complaints here."
+                        <label style = { { visibility: this.state.visibility} }>
                         
-                         <Field
+                        <Field
+                        
                             name = 'servComments'
                             component = { this.renderInputField }
-                            placeholder = "Please detail your complaints here."
-                        
+
                         />
 
                         </label>
@@ -398,21 +390,30 @@ class GuestbookNewCreated extends Component {
                             component = { this.renderInputField }
                             showTitle = 'Your Telephone Number (Optional)'
                         />
+
                     </div>
 
-                    <Field
+                    <h5 style = {{textAlign : 'center', marginTop : '30px'}}>Thank you for joining survey!</h5>
+                    
+                    <Field 
                         name = 'submit'
                         component = 'button'
                         type = 'submit'
-                        className = 'btn btn-primary'
-                    >Submit
-                    </Field>
+                        className = 'btn blue right'
+                        style = {{ marginBottom : '20px'}}
+                    >
                     
-
-                    <Link to = '/' className = 'btn btn-danger'>Cancel</Link>
+                        Submit
+                        <i className="small material-icons" style = {{verticalAlign : 'middle',
+                                                                marginLeft : '10px'}}>
+                                    file_upload
+                        </i>
+                    </Field>
+                        
+                    
+                    <Link to = '/' className = 'btn red' style = {{ marginBottom : '20px'}}>Cancel</Link>
 
                 </form>
-
 
             </div>
 
@@ -505,7 +506,7 @@ function validate(values) {
             err.telephone = 'You entered a wrong telephone number. Please, enter again.'
         }
 
-    }   
+    }
 
     return err;
 
@@ -522,6 +523,7 @@ export default reduxForm({
     // naming the form of this component
     form: 'CreateNewGuestbook',
     validate
+    // destroyOnUnmount : false
 
 })(
     

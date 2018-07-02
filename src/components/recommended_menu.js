@@ -28,9 +28,6 @@ function soup (temp, value, soup) {
 
     }
 
-    // console.log('soupValue', value)
-
-
     if (value <= 9 && value > 7) {
 
         return soup[3];
@@ -75,7 +72,6 @@ function main(temp, value, main) {
  
      }
      
-     // console.log('mainValue', value)
      if (value <= 9 && value > 7) {
 
         return main[0];
@@ -165,7 +161,6 @@ function drink(temp, value, drink) {
  
      }
 
-    //  console.log('sideValue', value)
     if (value <= 9 && value > 7) {
 
         return drink[0];
@@ -184,7 +179,6 @@ function drink(temp, value, drink) {
 
 function soda(soda) {
     
-    //console.log('soda',soda)
     return soda[3];
 
 }
@@ -220,7 +214,6 @@ export default class RecommendedMenu extends Component {
             const selectedDrink = drink(temp, value, menu.drink);
             const selectedSoda = soda(menu.drink);
 
-
             this.setState({
 
                 selectedSoup,
@@ -241,9 +234,6 @@ export default class RecommendedMenu extends Component {
 
     componentWillReceiveProps(nextProps) {
 
-        // 반드시 수정 4번 반복.....
-        // console.log('nextProps inside: ', nextProps)
-
         this.setCurrentMenu(nextProps);
 
     }
@@ -255,14 +245,6 @@ export default class RecommendedMenu extends Component {
         
     }
 
-    remember() {
-
-      
-        
-        
-
-    }
-
     makeFileList(files) {
 
         const src = `../images/${ files.file }`;
@@ -271,7 +253,16 @@ export default class RecommendedMenu extends Component {
             
             <Link to = {`/description/${ files.name }`}>
 
-                <img src = { src } alt = { files.file } />
+                <div style = {{ marginBottom : '20px'}}>
+                
+                    Check Detail
+                    <i className="small material-icons" style = {{ verticalAlign : 'middle',
+                    marginLeft : '10px' }}>check</i>
+                
+                </div>
+
+                <img src = { src } className = 'responsive-img' alt = { files.file } 
+                    style = {{ width : 150, height : 100, border: '1px solid #ddd', borderRadius: '4px', padding: '5px' }} />
 
             </Link>
                 
@@ -289,31 +280,25 @@ export default class RecommendedMenu extends Component {
 
         if(!this.state.selectedSoup || !this.state.selectedMain 
             || !this.state.selectedSide || !this.state.selectedDrink)
-        return (<tbody><tr><td>'Loading...'</td></tr></tbody>);
-
-        //console.log('this.props', this.props)
+        return (<tr><td>'Loading...'</td></tr>);
 
         const selectedMenu = _.map(this.state);
       
-        return (
+        return [ 
 
-            <tbody>
+            <tr key = '1'>
+                { selectedMenu.map(this.makeNameList) }
+            </tr>,
 
-                <tr>
-                    { selectedMenu.map(this.makeNameList) }
-                </tr>
+            <tr key = '2'>
+                { selectedMenu.map(this.makeFileList) }    
+            </tr>,
 
-                <tr>
-                    { selectedMenu.map(this.makeFileList) }    
-                </tr>
-
-                <tr>
-                    { selectedMenu.map(this.makePriceList) }    
-                </tr>
-            
-            </tbody>
+            <tr key = '3'>
+                { selectedMenu.map(this.makePriceList) }    
+            </tr>        
  
-        );
+        ];
 
     }
     
